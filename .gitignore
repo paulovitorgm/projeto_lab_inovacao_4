@@ -1,0 +1,4 @@
+.env
+generate_secret_key.py
+venv
+db.sqlite3
