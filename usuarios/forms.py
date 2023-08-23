@@ -5,7 +5,7 @@ from usuarios.models import Usuario, UsuarioJoga
 class UsuarioForm(forms.ModelForm):
 
     nome =  forms.CharField(max_length=100, strip=True, required=True, label="Nome completo", 
-                            widget=forms.TextInput(attrs={'placeholder':'José da Silva', 'class':'', 'autocomplete': 'off'}))
+                            widget=forms.TextInput(attrs={'placeholder':'José da Silva', 'class':'', 'autocomplete': 'off','oninput':'receber_apenas_letras(this)'}))
     email =  forms.EmailField(max_length=100, required=True, label="Email", 
                               widget=forms.EmailInput(attrs={'placeholder':'email@email.com', 'class':'', 'autocomplete':'off'}))
     usuario = forms.CharField(max_length=50, strip=True, required=True, label="Usuario", 

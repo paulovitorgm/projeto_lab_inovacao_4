@@ -6,6 +6,18 @@ def index(request):
 
 
 def jogos(request):
-    jogos = JogosForm
-    contexto = {'jogos' : jogos}
+    
+    if request.method == "GET":
+        jogos = JogosForm
+        contexto = {'jogos' : jogos}
+    else:
+        jogos = JogosForm
+        # if jogos.is_valid():
+      
+            
+
+        
+            
+        contexto = {'jogos' : jogos}
+
     return render(request, 'form_jogos.html', contexto)
