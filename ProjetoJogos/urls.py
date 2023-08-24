@@ -1,15 +1,14 @@
-
 from django.contrib import admin
-from django.urls import path
-from jogos.views import *
-from usuarios.views import usuario_form
-from jogos.views import jogos
+from django.urls import path, include
+
+
+from usuarios.views import index
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index),
-    path('usuario/', usuario_form),
-    path('jogos/', jogos),
+    path('usuario/', include('usuarios.urls')),
+    path('jogos/', include('jogos.urls')),
 
 ]

@@ -2,11 +2,16 @@
 
 
 {% block partials_base %}
-<form action="." method="POST">    
+<form action="{% url 'cadastrar_usuario' %}" method="POST">    
     {% csrf_token %}
-    <table>
-        {{usuario.as_table}}
-    </table>
+
+    {% for campo in usuario %}
+        <div class="mb-3">
+            <label for="{{ campo.id_for_label }}">{{ campo.label }}</label>
+            {{ campo }}
+            {{ campo.errors}}
+        </div>
+    {% endfor %}
     <input type="submit" value="Enviar" class="btn btn-primary">
     <input type="reset" value="Limpar" class="btn btn-warning">
 </form>

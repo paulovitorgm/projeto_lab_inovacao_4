@@ -1,23 +1,20 @@
 from django.shortcuts import render
 from jogos.forms import JogosForm
-
-def index(request):
-    return render(request,'index.html')
+from django.contrib.auth.decorators import login_required
 
 
-def jogos(request):
+#@login_required()
+def cadastrar_jogo(request):
     
-    if request.method == "GET":
-        jogos = JogosForm
-        contexto = {'jogos' : jogos}
+    if request.method == "POST":
+        form = JogosForm(request.POST)
+        if form.is_valid():
+            print('ok')
+        else:
+            print('erro')
     else:
-        jogos = JogosForm
-        # if jogos.is_valid():
+        form = JogosForm()
       
-            
-
-        
-            
-        contexto = {'jogos' : jogos}
+    contexto = {'jogos' : form}
 
     return render(request, 'form_jogos.html', contexto)
