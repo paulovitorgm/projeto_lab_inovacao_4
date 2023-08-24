@@ -1,3 +1,4 @@
+from typing import Any, Dict
 from django import forms
 from jogos.models import Jogos
 from datetime import datetime
@@ -35,13 +36,38 @@ class JogosForm(forms.ModelForm):
         fields = '__all__'
 
 
+    def clean_nome(self):
+        nome = self.cleaned_data.get('nome')
+        if self.verifica_campo_vazio(nome):
+            raise ValidationError('O campo "Nome do jogo" não pode ficar em branco.')
+        if nome == None:
+            raise ValidationError('Digite um valor válido.')
+        return nome
+
+
+    def clean_empresa_desenvolvedora(self):
+        empresa = self.cleaned_data.get('empresa_desenvolvedora')
+        if self.verifica_campo_vazio(empresa):
+            raise ValidationError('O campo "Desenvolvedor" não pode ficar em branco.')
+        if empresa == None:
+            raise ValidationError('Digite um valor válido.')
+        return empresa
+
+
     def clean_ano_lancamento(self):
         ano_atual = datetime.today().year
         ano = self.cleaned_data.get('ano_lancamento')
-        if ano >= 2004 and ano <= ano_atual:
-            return ano
-        else:
+
+        if ano == None:
+            raise ValidationError('Digite um valor válido.')
+        if self.verifica_campo_vazio(ano):
+            raise ValidationError('O campo "Ano de lançamento" não pode ficar em branco.')
+        if ano < 2004 or ano > ano_atual:
             raise ValidationError(f'O ano digitado deve estar entre 2004 e {ano_atual}.')
+        
+        return ano
+        
 
 
-
+    def verifica_campo_vazio(campo):
+        return not campo.strip()

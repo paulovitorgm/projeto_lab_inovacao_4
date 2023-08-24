@@ -39,13 +39,12 @@ def fazer_logout(request):
 def cadastrar_usuario(request):
     if request.method == 'POST':
         form = UsuarioForm(request.POST)
-        if not form.is_valid():
-            contexto = {'usuario': form}
-        else:
-            pass#--------------------------------------------------------------------------------------------------------------------------------------------------------
+        if form.is_valid():
+            form.save()
+        
     else:
         form = UsuarioForm()
-        contexto = {'usuario': form}
+    contexto = {'usuario': form}
     return render(request, 'form_usuario.html', contexto)
 
 

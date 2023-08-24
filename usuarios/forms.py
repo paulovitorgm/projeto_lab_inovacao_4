@@ -32,12 +32,12 @@ class UsuarioForm(forms.ModelForm):
         nome = self.cleaned_data.get('nome')
         nome = nome.strip()
 
-        if not nome.isalpha():
-            raise ValidationError('Nome inválido')
-        
         for n in nome:
             if n in lista_caracteres:
                 raise ValidationError(f'O caractere {n} é inválido.')
+        if not nome.isalpha():
+            raise ValidationError('Nome inválido')
+        
         return nome
 
     def clean_senha_confirmacao(self):

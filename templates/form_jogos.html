@@ -4,7 +4,7 @@
 {% block partials_base %}
 <form action="{% url 'cadastrar_jogo' %}" method="POST" class=" container">     
     {% csrf_token %}
-    {% for campo in jogos %}
+    {% for campo in form %}
         <div class="mb-3">
             <label for="{{ campo.id_for_label }}">{{ campo.label }}</label>
             {{ campo }}
