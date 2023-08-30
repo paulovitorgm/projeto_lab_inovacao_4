@@ -1,0 +1,20 @@
+{% extends 'partials/_base.html' %}
+
+
+{% block partials_base %}
+    <div class="container">
+        {% include 'partials/_alertas.html' %}
+        <form action="{% url 'editar_usuario' usuario.id %}" method="POST">
+            {% csrf_token %}
+            {% for campo in form %}
+                <label for="{{ campo.id_for_label}}">{{ campo.label }}</label>
+                {{ campo }}
+                {{ campo.errors }}
+            {% endfor %}
+            <input type="submit" value="Enviar" class="btn btn-primary">
+            
+        </form>
+        
+</div>
+
+{% endblock %}

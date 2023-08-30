@@ -9,3 +9,6 @@ class Jogos(models.Model):
     imagem = models.ImageField(blank=True, null=True)
     
 
+    def __str__(self):
+        return self.nome
+

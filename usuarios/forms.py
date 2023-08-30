@@ -53,7 +53,18 @@ class UsuarioForm(forms.ModelForm):
 
 
 
+
+
+
+
+
+
 class UsuarioJogaForm(forms.ModelForm):
     class Meta:
         model = UsuarioJoga
         fields = '__all__'
+
+
+
+
+
