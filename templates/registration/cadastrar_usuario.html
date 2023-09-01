@@ -5,7 +5,7 @@
 <form action="{% url 'cadastrar_usuario' %}" method="POST">    
     {% csrf_token %}
 
-    {% for campo in usuario %}
+    {% for campo in form %}
         <div class="mb-3">
             <label for="{{ campo.id_for_label }}">{{ campo.label }}</label>
             {{ campo }}

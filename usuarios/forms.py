@@ -1,11 +1,11 @@
 from django import forms
 from usuarios.models import Usuario, UsuarioJoga
 from django.core.exceptions import ValidationError
-
+from django.contrib.auth.models import User
 
 
 class UsuarioForm(forms.ModelForm):
-
+    
     nome =  forms.CharField(max_length=100, strip=True, required=True, label="Nome completo",  
                             widget=forms.TextInput(attrs={'placeholder':'José da Silva', 'class':'', 'autocomplete': 'off',
                                                           'oninput':'receber_apenas_letras(this)'}))
@@ -27,20 +27,20 @@ class UsuarioForm(forms.ModelForm):
         model = Usuario
         fields = ['nome', 'usuario', 'email', 'senha', 'senha_confirmacao', 'discord', 'foto_de_perfil', 'disponivel_para_torneio']
 
+
     def clean_nome(self):
         lista_caracteres = [',','.','@','#','?','!','$','%','/','|','[',']','{','}',"'",'"','(',')','¬','*','<','>']
         nome = self.cleaned_data.get('nome')
         nome = nome.strip()
-
         for n in nome:
             if n in lista_caracteres:
                 raise ValidationError(f'O caractere {n} é inválido.')
-        if not nome.isalpha():
-            raise ValidationError('Nome inválido')
-        
+        if len(nome.split()) < 2:
+            raise ValidationError('Por favor, digite o nome completo.')
         return nome
 
-    def clean_senha_confirmacao(self):
+
+    def clean_senha(self):
         senha_original = self.cleaned_data.get('senha')
         senha_confirmacao = self.cleaned_data.get('senha_confirmacao')
         if senha_original is not None:
@@ -55,16 +55,27 @@ class UsuarioForm(forms.ModelForm):
 
 
 
-
-
-
-
-class UsuarioJogaForm(forms.ModelForm):
+class UserForm(forms.ModelForm):
+    senha = forms.CharField(max_length=60, min_length=8, strip=True, required=True, label="Senha", 
+                            widget=forms.PasswordInput(attrs={'placeholder':'********', 'class':'', 'autocomplete': 'off'}))
+    senha_confirmacao = forms.CharField(max_length=60, min_length=8, strip=True, required=True, label="Confirme sua senha", 
+                            widget=forms.PasswordInput(attrs={'placeholder':'********', 'class':'', 'autocomplete': 'off'}))
+    
     class Meta:
-        model = UsuarioJoga
-        fields = '__all__'
+        model = User
+        fields = ['senha', 'senha_confirmacao']
+        
 
 
-
+def clean_senha(self):
+        senha_original = self.cleaned_data.get('senha')
+        senha_confirmacao = self.cleaned_data.get('senha_confirmacao')
+        if senha_original is not None:
+            if senha_original == senha_confirmacao:
+                return senha_confirmacao
+            else:
+                raise ValidationError('As senhas não conferem. Tente novamente.')
+        else:
+            raise ValidationError('Senha inválida.')
 
 
