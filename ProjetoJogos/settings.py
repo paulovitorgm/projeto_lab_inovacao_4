@@ -144,7 +144,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGOUT_REDIRECT_URL = 'login'
 LOGIN_REDIRECT_URL = '/'
-
+# Tempo em que o usuario permanece logado
+SESSION_COOKIE_AGE = 100
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST_USER= config('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD= config('EMAIL_HOST_PASSWORD')
+# EMAIL_USE_TLS=True
+# EMAIL_PORT =587
+# EMAIL_HOST='smtp.gmail.com'

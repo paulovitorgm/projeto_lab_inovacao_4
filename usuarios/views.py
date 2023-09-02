@@ -10,12 +10,16 @@ from django.shortcuts import get_object_or_404, get_list_or_404
 
 from usuarios.models import Usuario
 from usuarios.forms import UsuarioForm, UserForm
-
+from jogos.models import Jogos
 
 
 
 def index(request):
-    return render(request,'index.html')
+    usuario = Usuario()
+    jogos = Jogos.objects.all()
+    contexto = {'jogos': jogos, 'usuario':usuario}
+
+    return render(request,'index.html', contexto)
 
 
 
@@ -60,19 +64,16 @@ def cadastrar_usuario(request):
             nome_completo = request.POST['nome']
             nome = nome_completo[ : nome_completo.find(' ')]
             sobrenome = nome_completo[nome_completo.find(' ') : ].strip()
-            
             try:
                 User.objects.create_user(username=usuario, email=email,password=senha,
                                         first_name= nome, last_name=sobrenome)
                 form.save()
-                id_usuario = get_object_or_404(User, username=usuario).pk
-                Usuario.objects.filter(usuario=usuario).update(id_auth_user_id=id_usuario)
             except:
                 messages.error(request, 'Erro ao salvar novo usuário.')
     else:
         form = UsuarioForm()
     contexto = {'form': form}
-    return render(request, 'form_usuario.html', contexto)
+    return render(request, 'registration/cadastrar_usuario.html', contexto)
 
 
 

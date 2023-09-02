@@ -15,8 +15,13 @@
 
 </head>
 <body>
+    {% if user.is_authenticated %}
+        {{ user.username }}
+        <a href="{% url 'logout' %}">Logout</a>
+    {% endif %}
     
     {% block partials_base %}
+    
     {% endblock%}
 
     <script src="{% static 'JS/validacoes.js' %}"></script>

@@ -2,4 +2,4 @@
 generate_secret_key.py
 venv
 db.sqlite3
-migrations
+
