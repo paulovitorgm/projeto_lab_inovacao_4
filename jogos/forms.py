@@ -1,6 +1,5 @@
-from typing import Any, Dict
 from django import forms
-from jogos.models import Jogos
+from jogos.models import Jogos, Plataforma
 from datetime import datetime
 from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
@@ -31,10 +30,12 @@ class JogosForm(forms.ModelForm):
                                                                                             message='Arquivo inválido')],
                                widget=forms.FileInput(attrs={'class':''}))
 
+
     class Meta:
         model = Jogos
         fields = '__all__'
 
+    
 
     def clean_nome(self):
         nome = self.cleaned_data.get('nome')
@@ -60,14 +61,12 @@ class JogosForm(forms.ModelForm):
 
         if ano == None:
             raise ValidationError('Digite um valor válido.')
-        if self.verifica_campo_vazio(ano):
-            raise ValidationError('O campo "Ano de lançamento" não pode ficar em branco.')
         if ano < 2004 or ano > ano_atual:
             raise ValidationError(f'O ano digitado deve estar entre 2004 e {ano_atual}.')
         
         return ano
-        
 
-
-    def verifica_campo_vazio(campo):
+    def verifica_campo_vazio(self, campo):
         return not campo.strip()
+
+    

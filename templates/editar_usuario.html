@@ -4,13 +4,29 @@
 {% block partials_base %}
     <div class="container">
         {% include 'partials/_alertas.html' %}
-        <form action="{% url 'editar_usuario' usuario.id %}" method="POST">
+        <form action="{% url 'editar_usuario' user.pk %}" method="POST">
             {% csrf_token %}
-            {% for campo in form %}
-                <label for="{{ campo.id_for_label}}">{{ campo.label }}</label>
-                {{ campo }}
-                {{ campo.errors }}
-            {% endfor %}
+            
+            
+            <div>
+                <label for="usuario">Usuário</label>
+                <input type="text" value="{{ form.username }}" name="usuario">
+            </div>
+            <div>
+                <label for="nome_completo">Nome completo</label>
+                <input type="text" value="{{ form.first_name }} {{form.last_name}}" name="nome_completo">
+            </div>
+            <div>
+                <label for="email">E-mail</label>
+                <input type="email" value="{{ form.email }}" name="email">
+            </div>
+
+
+
+
+
+
+
             <input type="submit" value="Enviar" class="btn btn-primary">
             
         </form>

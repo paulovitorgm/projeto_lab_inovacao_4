@@ -1,24 +1,33 @@
 from django.db import models
-from jogos.models import Jogos
+from jogos.models import Jogos, Plataforma
 from django.contrib.auth.models import User
 
+
+
 class Usuario(models.Model):
-    nome = models.CharField(max_length=100, blank=False, null=False)
-    email = models.CharField(max_length=100, blank=False, null=False, unique=True)
-    usuario = models.CharField(max_length=50, blank=False, null=False, unique=True)
+    id_usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='usuario')
     discord = models.CharField(max_length=100, default='Não possui')
-    disponivel_para_torneio = models.BooleanField(default=False)
+    disponivel_para_torneio = models.BooleanField()
     foto_de_perfil =  models.ImageField(blank=True, null=True)
-    
 
     def __str__(self):
-        return self.nome
+        return self.id_usuario.first_name
+
+
+class NickUsuario(models.Model):
+    usuario_id = models.ForeignKey(Usuario, on_delete=models.CASCADE, null=False, blank=False, related_name="nicknames")
+    nick = models.CharField(unique=True, max_length=100, blank=True)
+    regiao_server = models.CharField(max_length=75,blank=True)
+
+    def __str__(self):
+        return self.nick
 
 
 
 
 class UsuarioJoga(models.Model):
-    jogador = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    jogo = models.ForeignKey(Jogos, on_delete=models.CASCADE)
+    nick_jogador = models.ForeignKey(NickUsuario, on_delete=models.CASCADE, related_name="nickname" )
+    jogo = models.ForeignKey(Jogos, on_delete=models.CASCADE, related_name="jogo")
     link_perfil_jogador = models.CharField(max_length=150, blank=True)
-    
+    plataforma = models.ForeignKey(Plataforma, on_delete=models.CASCADE, related_name="plataforma_usada")
+
