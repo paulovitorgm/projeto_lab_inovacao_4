@@ -3,8 +3,6 @@ from usuarios.views import cadastrar_usuario, editar_usuario, alterar_senha,  de
 
 
 urlpatterns = [
-    # path('login/', view=fazer_login, name='fazer_login'),
-    # path('logout/', view=fazer_logout, name='fazer_logout'),
 
     path('cadastro/', view=cadastrar_usuario, name='cadastrar_usuario'),
     path('editar/<int:pk>/', view=editar_usuario, name='editar_usuario'),

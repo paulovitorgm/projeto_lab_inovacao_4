@@ -70,25 +70,26 @@ WSGI_APPLICATION = 'ProjetoJogos.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+
+# BANCO DE DADOS
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": str(os.getenv('ENGINE')),
+        'NAME': str(os.getenv('NAME')),
+        'USER': str(os.getenv('USER')),
+        'PASSWORD': str(os.getenv('PASSWORD')),
+        'HOST': str(os.getenv('HOST')),
+        
     }
 }
-
-
-    # BANCO DE DADOS
-
-            # DATABASES = {
-            #     "default": {
-            #         "ENGINE": str(os.getenv('ENGINE')),
-            #         'NAME': str(os.getenv('NAME')),
-            #         'USER': str(os.getenv('USER')),
-            #         'PASSWORD': str(os.getenv('PASSWORD')),
-            #         'HOST': str(os.getenv('HOST'))
-            #     }
-            # }
 
 
 
