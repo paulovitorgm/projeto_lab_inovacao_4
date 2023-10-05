@@ -10,7 +10,7 @@
     {% csrf_token %}
     
         {% for campo in form %}
-        <div class="mb-3">
+        <div class="">
             <label for="{{ campo.id_for_label }}">{{ campo.label }}</label>
             {{ campo }}
             {{ campo.errors}}
@@ -20,5 +20,34 @@
     <input type="reset" value="Limpar" class="btn btn-warning">
 </form>
 <p><a href="{% url 'password_reset' %}">Esqueceu a senha?</a></p>
+
+
+
+<div class="main-login">
+        <div class="left-login">
+            <h1>Faça Login<br> E disfrute do melhor site de games</h1>
+            <img width="500px" src="video.svg" alt="">
+        </div>
+        <div class="right-login">
+            <div class="card-login">
+                <h1>LOGIN</h1>
+
+
+                <div class="text-field">
+                    <label for="usuario">Usuário</label>
+                    <input type="text" name="usuario" placeholder="Usuário">
+                </div>
+                <div class="text-field">
+                     <label for="senha">Senha</label>
+                     <input type="password" name="Senha" placeholder="Senha">
+                </div>
+
+
+                <button class="btn-login">Login</button>
+            </div>
+        </div>
+    </div>
+
+
 
 {% endblock %}
