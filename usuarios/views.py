@@ -5,20 +5,17 @@ from django.shortcuts import get_object_or_404
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
 
-from usuarios.models import Usuario, NickUsuario
+from usuarios.models import Usuario
 from usuarios.forms import UsuarioForm, UserForm
 from jogos.models import Jogos
-
 
 
 def index(request):
     usuario = Usuario()
     jogos = Jogos.objects.all()
-    contexto = {'jogos': jogos, 'usuario':usuario}
+    contexto = {'jogos': jogos, 'usuario': usuario}
 
-    return render(request,'index.html', contexto)
-
-
+    return render(request, 'index.html', contexto)
 
 
 def cadastrar_usuario(request):
@@ -29,20 +26,17 @@ def cadastrar_usuario(request):
             email = request.POST['email']
             senha = request.POST['senha']
             nome_completo = request.POST['nome']
-            nome = nome_completo[ : nome_completo.find(' ')]
-            sobrenome = nome_completo[nome_completo.find(' ') : ].strip()
-
+            nome = nome_completo[:nome_completo.find(' ')]
+            sobrenome = nome_completo[nome_completo.find(' '):].strip()
             discord = request.POST['discord']
             disponivel_para_torneio = True if request.POST.get('disponivel_para_torneio') == "on" else False
-            
+
             try:
-                usuario_tabela_user = User.objects.create_user(username=usuario, email=email,password=senha,
-                                        first_name= nome, last_name=sobrenome)
-                
+                usuario_tabela_user = User.objects.create_user(username=usuario, email=email, password=senha,
+                                                               first_name=nome, last_name=sobrenome)
                 # FALTA IMPLEMENTAR A RECEPÇÃO DA IMAGEM
-                Usuario.objects.create(discord=discord,disponivel_para_torneio=disponivel_para_torneio, id_usuario=usuario_tabela_user)
-                    
-                
+                Usuario.objects.create(discord=discord, disponivel_para_torneio=disponivel_para_torneio,
+                                       id_usuario=usuario_tabela_user)
                 messages.success(request, "Usuário salvo com sucesso.")
                 return redirect('index')
             except IntegrityError as e:
@@ -53,34 +47,31 @@ def cadastrar_usuario(request):
     return render(request, 'registration/cadastrar_usuario.html', contexto)
 
 
-
-
 @login_required(login_url='/accounts/login')
 def editar_usuario(request, pk):
     usuario_a_editar = get_object_or_404(User, pk=pk)
-    contexto = {'form':usuario_a_editar}
+    contexto = {'form': usuario_a_editar}
     if request.method == "POST":
         usuario_a_editar.username = request.POST['usuario']
         usuario_a_editar.email = request.POST['email']
-        
+
         nome_completo = request.POST['nome_completo']
-        nome = nome_completo[ : nome_completo.find(' ')]
-        sobrenome = nome_completo[nome_completo.find(' ') : ].strip()
+        nome = nome_completo[: nome_completo.find(' ')]
+        sobrenome = nome_completo[nome_completo.find(' '):].strip()
 
         usuario_a_editar.first_name = nome
         usuario_a_editar.last_name = sobrenome
         usuario_a_editar.save()
         return redirect('index')
-    return render(request,'editar_usuario.html', contexto)
+    return render(request, 'editar_usuario.html', contexto)
 
 
 @login_required(login_url='/accounts/login')
 def deleta_usuario(request, pk):
     usuario = get_object_or_404(User, pk=pk)
     usuario.delete()
-    messages.success(request,"Usuário deletado com sucesso.")
+    messages.success(request, "Usuário deletado com sucesso.")
     return redirect('index')
-
 
 
 def alterar_senha(request, username):
@@ -89,11 +80,9 @@ def alterar_senha(request, username):
         senha = request.POST['senha']
         obj_usuario.set_password(senha)
         obj_usuario.save()
-        
+
         return redirect('cadastrar_usuario')
     else:
         form = UserForm()
         contexto = {'form': form}
         return render(request, 'registration/troca_senha.html', contexto)
-
-
