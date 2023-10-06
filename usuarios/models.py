@@ -3,12 +3,11 @@ from jogos.models import Jogos, Plataforma
 from django.contrib.auth.models import User
 
 
-
 class Usuario(models.Model):
     id_usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='usuario')
     discord = models.CharField(max_length=100, default='Não possui')
     disponivel_para_torneio = models.BooleanField(null=True,blank=True,default=False)
-    foto_de_perfil =  models.ImageField(blank=True, null=True)
+    foto_de_perfil = models.ImageField(blank=True, null=True)
 
     def __str__(self):
         return self.id_usuario.first_name
@@ -21,8 +20,6 @@ class NickUsuario(models.Model):
 
     def __str__(self):
         return self.nick
-
-
 
 
 class UsuarioJoga(models.Model):

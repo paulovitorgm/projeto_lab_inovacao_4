@@ -13,12 +13,21 @@ from jogos.models import Jogos
 def index(request):
     usuario = Usuario()
     jogos = Jogos.objects.all()
-    contexto = {'jogos': jogos, 'usuario': usuario}
+    jogadores = User.objects.all()
+    busca = request.GET.get('busca')
+
+    if busca:
+        jogos = jogadores.filter(username__icontains=busca)
+
+    contexto = {'jogos': jogos, 'usuario': usuario, 'jogadores': jogadores}
 
     return render(request, 'index.html', contexto)
 
 
 def cadastrar_usuario(request):
+    if request.user.is_authenticated:
+        messages.error(request, 'Você não pode fazer um novo cadastro.')
+        return redirect('index')
     if request.method == 'POST':
         form = UsuarioForm(request.POST)
         if form.is_valid():
@@ -37,7 +46,7 @@ def cadastrar_usuario(request):
                 # FALTA IMPLEMENTAR A RECEPÇÃO DA IMAGEM
                 Usuario.objects.create(discord=discord, disponivel_para_torneio=disponivel_para_torneio,
                                        id_usuario=usuario_tabela_user)
-                messages.success(request, "Usuário salvo com sucesso.")
+                messages.success(request, f"Usuário {usuario} salvo com sucesso.")
                 return redirect('index')
             except IntegrityError as e:
                 messages.error(request, f'Erro ao salvar novo usuário: {e}')
@@ -86,3 +95,21 @@ def alterar_senha(request, username):
         form = UserForm()
         contexto = {'form': form}
         return render(request, 'registration/troca_senha.html', contexto)
+
+
+def busca_usuario(request):
+    pass
+    # lista_de_usuarios: object = Jogos.objects.all()
+    # print(lista_de_usuarios)
+    # if 'busca' in request.GET:
+    #     nome_a_buscar = request.GET['busca']
+    #     lista_de_usuarios = lista_de_usuarios.filter(nome=nome_a_buscar)
+    #     return lista_de_usuarios
+        # contexto = {'busca': lista_de_usuarios}
+        # if lista_de_usuarios:
+        #     messages.success(request, 'Usuários encontrados:')
+        # else:
+        #     messages.error(request, 'Nenhum usuário encontrado. Tente novamente.')
+        # return render(request, 'busca_usuarios.html', contexto)
+    # else:
+    #     return render(request, 'busca_usuarios.html')

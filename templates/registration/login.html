@@ -6,11 +6,11 @@
     <p>Login ou senha inválidos. Tente novamente</p>
 {% endif %}
 
-<form method="post" action="{% url 'login' %}">
+<form method="post" action="{% url 'login' %}" class="m-3 p-3">
     {% csrf_token %}
     
         {% for campo in form %}
-        <div class="">
+        <div class="m-1 p-1">
             <label for="{{ campo.id_for_label }}">{{ campo.label }}</label>
             {{ campo }}
             {{ campo.errors}}
@@ -23,30 +23,30 @@
 
 
 
-<div class="main-login">
-        <div class="left-login">
-            <h1>Faça Login<br> E disfrute do melhor site de games</h1>
-            <img width="500px" src="video.svg" alt="">
-        </div>
-        <div class="right-login">
-            <div class="card-login">
-                <h1>LOGIN</h1>
+<!--<div class="main-login">-->
+<!--    <div class="left-login">-->
+<!--        <h1>Faça Login<br> E desfrute do melhor site de games</h1>-->
+<!--        <img width="500px" src="video.svg" alt="">-->
+<!--    </div>-->
+<!--    <div class="right-login">-->
+<!--        <div class="card-login">-->
+<!--            <h1>LOGIN</h1>-->
 
 
-                <div class="text-field">
-                    <label for="usuario">Usuário</label>
-                    <input type="text" name="usuario" placeholder="Usuário">
-                </div>
-                <div class="text-field">
-                     <label for="senha">Senha</label>
-                     <input type="password" name="Senha" placeholder="Senha">
-                </div>
+<!--            <div class="text-field">-->
+<!--                <label for="usuario">Usuário</label>-->
+<!--                <input type="text" name="usuario" placeholder="Usuário">-->
+<!--            </div>-->
+<!--            <div class="text-field">-->
+<!--                 <label for="senha">Senha</label>-->
+<!--                 <input type="password" name="Senha" placeholder="Senha">-->
+<!--            </div>-->
 
 
-                <button class="btn-login">Login</button>
-            </div>
-        </div>
-    </div>
+<!--            <button class="btn-login">Login</button>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 
 
 
