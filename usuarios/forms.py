@@ -84,13 +84,38 @@ class UserForm(forms.ModelForm):
         fields = '__all__'
         # fields = ['nome', 'email', 'usuario']
 
-# def clean_senha_confirmacao(self):
-#         senha_original = self.cleaned_data.get('senha')
-#         senha_confirmacao = self.cleaned_data.get('senha_confirmacao')
-#         if senha_original is not None:
-#             if senha_original == senha_confirmacao:
-#                 return senha_confirmacao
-#             else:
-#                 raise forms.ValidationError('As senhas não conferem. Tente novamente.')
-#         else:
-#             raise forms.ValidationError('Senha inválida.')
+    # def clean_senha_confirmacao(self):
+    #     senha_original = self.cleaned_data.get('senha')
+    #     senha_confirmacao = self.cleaned_data.get('senha_confirmacao')
+    #     if senha_original is not None:
+    #         if senha_original == senha_confirmacao:
+    #             return senha_confirmacao
+    #         else:
+    #             raise forms.ValidationError('As senhas não conferem. Tente novamente.')
+    #     else:
+    #         raise forms.ValidationError('Senha inválida.')
+
+
+class ResetarSenhaForm:
+    email = forms.EmailField(max_length=100, required=True, label="Email",
+                             widget=forms.EmailInput(
+                                 attrs={'placeholder': 'email@email.com', 'class': '', 'autocomplete': 'off'}),
+                             validators=[EmailValidator()])
+
+
+# class TrocaSenhaForm(forms.ModelForm):
+#     senha_antiga = forms.CharField(max_length=60, min_length=8, strip=True, required=True, label="Senha antiga *",
+#                             widget=forms.PasswordInput(attrs={'placeholder': '********',
+#                                                               'class': '', 'autocomplete': 'off'}))
+#
+#     senha = forms.CharField(max_length=60, min_length=8, strip=True, required=True, label="Senha *",
+#                             widget=forms.PasswordInput(attrs={'placeholder': '********',
+#                                                               'class': '', 'autocomplete': 'off'}))
+#     senha_confirmacao = forms.CharField(max_length=60, min_length=8, strip=True, required=True,
+#                                         label="Confirme sua senha *",
+#                                         widget=forms.PasswordInput(
+#                                             attrs={'placeholder': '********', 'class': '', 'autocomplete': 'off'}))
+#
+#     class Meta:
+#         model = User
+#         fields = ['senha_antiga', 'senha', 'senha_confirmacao']

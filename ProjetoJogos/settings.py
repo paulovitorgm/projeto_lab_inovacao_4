@@ -2,6 +2,7 @@ from pathlib import Path, os
 from dotenv import load_dotenv
 
 
+
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -148,11 +149,20 @@ LOGIN_REDIRECT_URL = '/'
 # Tempo em que o usuario permanece logado
 SESSION_COOKIE_AGE = 3000
 
+# --- Para sair no terminal
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST_USER= config('EMAIL_HOST_USER')
-# EMAIL_HOST_PASSWORD= config('EMAIL_HOST_PASSWORD')
-# EMAIL_USE_TLS=True
-# EMAIL_PORT =587
-# EMAIL_HOST='smtp.gmail.com'
+#--- Para ir para o email de fato
+EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
+
+DEFAULT_FROM_EMAIL = str(os.getenv('DEFAULT_FROM_EMAIL'))
+EMAIL_HOST_USER = str(os.getenv('EMAIL_HOST_USER'))
+EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_HOST_PASSWORD'))
+EMAIL_USE_TLS = str(os.getenv("EMAIL_USE_TLS"))
+EMAIL_PORT = str(os.getenv("EMAIL_PORT"))
+EMAIL_HOST = str(os.getenv("EMAIL_HOST"))
+
+
+#email  laboratorio.inovacao.04@gmail.com
+#senha email-app jfyh vlgr rbnc eqep
+#senha do email   c8e702u@^hv^ga)xg)56er=c@n=^!!y6bseezcg4l__l6pi1ox

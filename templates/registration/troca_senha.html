@@ -1,13 +1,13 @@
 {% extends 'partials/_base.html' %}
 {% block partials_base %}
 
-    <form action="." method="POST">
+    <form action="{% url 'alterar_senha' %}" method="POST" class="m-3 p-3">
         {% csrf_token %}
         {% for campo in form %}
             <div class="mb-3">
                 <label for="{{ campo.id_for_label }}">{{ campo.label }}</label>
                 {{ campo }}
-                {{ campo.errors}}
+                {{ campo.errors }}
             </div>
         {% endfor %}
         <input type="submit" value="Enviar" class="btn btn-primary">

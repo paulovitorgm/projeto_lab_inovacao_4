@@ -1,12 +1,19 @@
+from django.http import HttpResponse
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
+from ProjetoJogos.settings import DEFAULT_FROM_EMAIL
+
+from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm
+from django.contrib.auth import update_session_auth_hash
+
 
 from usuarios.models import Usuario
-from usuarios.forms import UsuarioForm, UserForm
+from usuarios.forms import UsuarioForm
 from jogos.models import Jogos
 
 
@@ -15,12 +22,9 @@ def index(request):
     jogos = Jogos.objects.all()
     jogadores = User.objects.all()
     busca = request.GET.get('busca')
-
     if busca:
         jogos = jogadores.filter(username__icontains=busca)
-
     contexto = {'jogos': jogos, 'usuario': usuario, 'jogadores': jogadores}
-
     return render(request, 'index.html', contexto)
 
 
@@ -57,8 +61,8 @@ def cadastrar_usuario(request):
 
 
 @login_required(login_url='/accounts/login')
-def editar_usuario(request, pk):
-    usuario_a_editar = get_object_or_404(User, pk=pk)
+def editar_usuario(request):
+    usuario_a_editar = get_object_or_404(User, pk=request.user.pk)
     contexto = {'form': usuario_a_editar}
     if request.method == "POST":
         usuario_a_editar.username = request.POST['usuario']
@@ -83,33 +87,29 @@ def deleta_usuario(request, pk):
     return redirect('index')
 
 
-def alterar_senha(request, username):
-    obj_usuario = get_object_or_404(User, username=username)
-    if request.method == 'POST':
-        senha = request.POST['senha']
-        obj_usuario.set_password(senha)
-        obj_usuario.save()
-
-        return redirect('cadastrar_usuario')
+@login_required(login_url='/accounts/login')
+def alterar_senha(request):
+    if request.method == "POST":
+        form = PasswordChangeForm(data=request.POST, user=request.user)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            return redirect('index')
+        else:
+            return HttpResponse("SENHÃ NÃO ALTERADA")
     else:
-        form = UserForm()
+        form = PasswordChangeForm(user=request.user)
         contexto = {'form': form}
         return render(request, 'registration/troca_senha.html', contexto)
 
 
-def busca_usuario(request):
-    pass
-    # lista_de_usuarios: object = Jogos.objects.all()
-    # print(lista_de_usuarios)
-    # if 'busca' in request.GET:
-    #     nome_a_buscar = request.GET['busca']
-    #     lista_de_usuarios = lista_de_usuarios.filter(nome=nome_a_buscar)
-    #     return lista_de_usuarios
-        # contexto = {'busca': lista_de_usuarios}
-        # if lista_de_usuarios:
-        #     messages.success(request, 'Usuários encontrados:')
-        # else:
-        #     messages.error(request, 'Nenhum usuário encontrado. Tente novamente.')
-        # return render(request, 'busca_usuarios.html', contexto)
-    # else:
-    #     return render(request, 'busca_usuarios.html')
+def recuperar_senha(request):
+    form = PasswordResetForm(data=request.POST)
+
+
+def enviar_email():
+    send_mail('assunto Teste', 'corpo da mensagem', DEFAULT_FROM_EMAIL,
+              recipient_list=['paulovitorgaspmelo@hotmail.com'])
+    return HttpResponse('teste')
+
+

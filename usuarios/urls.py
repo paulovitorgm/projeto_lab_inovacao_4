@@ -1,13 +1,25 @@
 from django.urls import path
-from usuarios.views import cadastrar_usuario, editar_usuario, alterar_senha, deleta_usuario, busca_usuario
-
+from usuarios.views import (cadastrar_usuario, editar_usuario,
+                            alterar_senha, deleta_usuario, enviar_email, recuperar_senha)
+from django.contrib.auth import views as views_auth
 
 urlpatterns = [
 
     path('cadastro/', view=cadastrar_usuario, name='cadastrar_usuario'),
-    path('editar/<int:pk>/', view=editar_usuario, name='editar_usuario'),
-    path('altera_senha/<str:username>/', view=alterar_senha, name='altera_senha'),
+    path('editar/', view=editar_usuario, name='editar_usuario'),
+    path('altera_senha/', view=alterar_senha, name='alterar_senha'),
+    path('reset_senha/', view=recuperar_senha, name='recuperar_senha'),
     path('delete/<int:pk>/', view=deleta_usuario, name='deletar_usuario'),
-    path('busca/', busca_usuario, name='busca_usuario')
+    path('email/', view=enviar_email, name='enviar_email'),
+    path('resetar_senha/', views_auth.PasswordResetView.as_view(template_name='registration/password_reset_form.html'),
+         name='resetar_senha'),
+
+    path("resetar_senha/done/", views_auth.PasswordResetDoneView.as_view(template_name=''), name='resetar_senha-done'),
+
+    path("resetar_senha/confirm", views_auth.PasswordResetConfirmView.as_view(template_name=''),
+         name='resetar_senha-confirm'),
+
+    path('resetar_senha/complete/', views_auth.PasswordResetCompleteView.as_view(template_name=''),
+         name='resetar_senha-complete'),
 
 ]

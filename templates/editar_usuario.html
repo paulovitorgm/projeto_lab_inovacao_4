@@ -4,10 +4,8 @@
 {% block partials_base %}
     <div class="container">
         {% include 'partials/_alertas.html' %}
-        <form action="{% url 'editar_usuario' user.pk %}" method="POST">
+        <form action="{% url 'editar_usuario' %}" method="POST">
             {% csrf_token %}
-            
-            
             <div>
                 <label for="usuario">Usuário</label>
                 <input type="text" value="{{ form.username }}" name="usuario">
@@ -21,16 +19,10 @@
                 <input type="email" value="{{ form.email }}" name="email">
             </div>
 
-
-
-
-
-
-
             <input type="submit" value="Enviar" class="btn btn-primary">
-            
+
         </form>
-        
-</div>
+
+    </div>
 
 {% endblock %}
