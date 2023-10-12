@@ -11,15 +11,17 @@ urlpatterns = [
     path('reset_senha/', view=recuperar_senha, name='recuperar_senha'),
     path('delete/<int:pk>/', view=deleta_usuario, name='deletar_usuario'),
     path('email/', view=enviar_email, name='enviar_email'),
+
+
     path('resetar_senha/', views_auth.PasswordResetView.as_view(template_name='registration/password_reset_form.html'),
          name='resetar_senha'),
 
-    path("resetar_senha/done/", views_auth.PasswordResetDoneView.as_view(template_name=''), name='resetar_senha-done'),
+    path("resetar_senha/done/", views_auth.PasswordResetDoneView.as_view(template_name='registration/password_reset_done.html'), name='resetar_senha-done'),
 
-    path("resetar_senha/confirm", views_auth.PasswordResetConfirmView.as_view(template_name=''),
+    path("resetar_senha/<uidb64>/<token>/", views_auth.PasswordResetConfirmView.as_view(template_name='registration/password_reset_confirm.html'),
          name='resetar_senha-confirm'),
 
-    path('resetar_senha/complete/', views_auth.PasswordResetCompleteView.as_view(template_name=''),
+    path('resetar_senha/complete/', views_auth.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'),
          name='resetar_senha-complete'),
 
 ]
