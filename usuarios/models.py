@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 class Usuario(models.Model):
     id_usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='usuario')
     discord = models.CharField(max_length=100, default='Não possui')
-    disponivel_para_torneio = models.BooleanField(null=True,blank=True,default=False)
+    disponivel_para_torneio = models.BooleanField(null=True, blank=True, default=False)
     foto_de_perfil = models.ImageField(blank=True, null=True)
 
     def __str__(self):

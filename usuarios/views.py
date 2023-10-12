@@ -6,12 +6,10 @@ from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
-from ProjetoJogos.settings import DEFAULT_FROM_EMAIL
-
-from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 
-
+from ProjetoJogos.settings import DEFAULT_FROM_EMAIL
 from usuarios.models import Usuario
 from usuarios.forms import UsuarioForm
 from jogos.models import Jogos
@@ -50,8 +48,9 @@ def cadastrar_usuario(request):
                 # FALTA IMPLEMENTAR A RECEPÇÃO DA IMAGEM
                 Usuario.objects.create(discord=discord, disponivel_para_torneio=disponivel_para_torneio,
                                        id_usuario=usuario_tabela_user)
+                envia_email_quando_cria_usuario(nome, destinatario=email)
                 messages.success(request, f"Usuário {usuario} salvo com sucesso.")
-                return redirect('index')
+                return redirect('login')
             except IntegrityError as e:
                 messages.error(request, f'Erro ao salvar novo usuário: {e}')
     else:
@@ -103,13 +102,11 @@ def alterar_senha(request):
         return render(request, 'registration/troca_senha.html', contexto)
 
 
-def recuperar_senha(request):
-    form = PasswordResetForm(data=request.POST)
+def enviar_email(assunto, mensagem, destinatario):
+    send_mail(assunto, mensagem, DEFAULT_FROM_EMAIL, recipient_list=[destinatario])
 
 
-def enviar_email():
-    send_mail('assunto Teste', 'corpo da mensagem', DEFAULT_FROM_EMAIL,
-              recipient_list=['paulovitorgaspmelo@hotmail.com'])
-    return HttpResponse('teste')
-
-
+def envia_email_quando_cria_usuario(nome, destinatario):
+    assunto = "Criação de conta"
+    mensagem = f"Obrigado {nome} pelo registro na nossa plataforma, agora você pode desfrutar dos nossos serviços."
+    enviar_email(assunto, mensagem, destinatario)
