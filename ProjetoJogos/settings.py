@@ -133,9 +133,9 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 
 
-# # Media
-# MEDIA_ROOT = os.path.join(BASE_DIR,'media')
-# MEDIA_URL = '/media/'
+# Media
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_URL = '/media/'
 
 
 # Default primary key field type
@@ -163,6 +163,3 @@ EMAIL_PORT = str(os.getenv("EMAIL_PORT"))
 EMAIL_HOST = str(os.getenv("EMAIL_HOST"))
 
 
-#email  laboratorio.inovacao.04@gmail.com
-#senha email-app jfyh vlgr rbnc eqep
-#senha do email   c8e702u@^hv^ga)xg)56er=c@n=^!!y6bseezcg4l__l6pi1ox

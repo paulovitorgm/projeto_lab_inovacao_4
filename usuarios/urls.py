@@ -2,6 +2,9 @@ from django.urls import path
 from usuarios.views import (cadastrar_usuario, editar_usuario,
                             alterar_senha, deleta_usuario, enviar_email)
 from django.contrib.auth import views as views_auth
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
 
@@ -23,4 +26,4 @@ urlpatterns = [
     path('resetar_senha/complete/', views_auth.PasswordResetCompleteView.as_view(template_name=
         'registration/password_reset_complete.html'), name='resetar_senha-complete'),
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

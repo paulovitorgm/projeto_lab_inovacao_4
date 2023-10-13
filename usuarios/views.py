@@ -95,7 +95,7 @@ def alterar_senha(request):
             update_session_auth_hash(request, form.user)
             return redirect('index')
         else:
-            return HttpResponse("SENHÃ NÃO ALTERADA")
+            return HttpResponse("SENHA NÃO ALTERADA")
     else:
         form = PasswordChangeForm(user=request.user)
         contexto = {'form': form}

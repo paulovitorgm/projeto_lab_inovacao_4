@@ -5,68 +5,63 @@ from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
 
 
-PLATAFORMAS_CHOICES =(('PC','PC'),
-              ('PS', 'PlayStation'),
-              ('XB', 'XBox'),
-              ('MB', 'Mobile')
+PLATAFORMAS_CHOICES = (
+                ('PC', 'PC'),
+                ('PS', 'PlayStation'),
+                ('XB', 'XBox'),
+                ('MB', 'Mobile')
               )
+
+
+def verifica_campo_vazio(campo):
+    return not campo.strip()
 
 
 class JogosForm(forms.ModelForm):
     nome = forms.CharField(label='Nome do jogo', max_length=100, strip=True, required=True, 
-                           widget=forms.TextInput(attrs={'placeholder' : 'World of Warcraft', 'class':'', 'autocomplete' : 'off'}))
+                           widget=forms.TextInput(attrs={'placeholder': 'World of Warcraft',
+                                                         'class': '', 'autocomplete': 'off'}))
     
     empresa_desenvolvedora = forms.CharField(label='Desenvolvedor', max_length=100, strip=True, required=True, 
-                                             widget=forms.TextInput(attrs={'placeholder' : 'Blizzard', 'class':'', 'autocomplete' : 'off'}))
+                                             widget=forms.TextInput(attrs={'placeholder': 'Blizzard',
+                                                                           'class': '', 'autocomplete': 'off'}))
     
-    ano_lancamento = forms.IntegerField(label='Ano de lançamento', max_value=datetime.today().year, min_value=2004, 
-                                    required=True, widget=forms.NumberInput(attrs={'placeholder' : '2021', 'class':'', 'autocomplete' : 'off'}))
+    ano_lancamento = forms.IntegerField(label='Ano de lançamento', max_value=datetime.today().year, min_value=2004,
+                                        required=True, widget=forms.NumberInput(
+                                        attrs={'placeholder': '2021', 'class': '', 'autocomplete': 'off'}))
     
     plataforma = forms.MultipleChoiceField(label='Plataforma', choices=PLATAFORMAS_CHOICES, required=True,  
-                                   widget=forms.CheckboxSelectMultiple(attrs={'class':''}) )
+                                   widget=forms.CheckboxSelectMultiple(attrs={'class': ''}))
     
-    imagem = forms.ImageField(label='Foto de perfil', required=False, 
-                              help_text='PNG, JPEG, JPG',validators=[FileExtensionValidator(allowed_extensions=['png','jpeg', 'jpg'], 
-                                                                                            message='Arquivo inválido')],
-                               widget=forms.FileInput(attrs={'class':''}))
-
+    imagem = forms.ImageField(label='Foto de perfil', required=False, help_text='PNG, JPEG, JPG',
+                              validators=[FileExtensionValidator(allowed_extensions=['png', 'jpeg', 'jpg'],
+                              message='Arquivo inválido')], widget=forms.FileInput(attrs={'class': ''}))
 
     class Meta:
         model = Jogos
         fields = '__all__'
 
-    
-
     def clean_nome(self):
         nome = self.cleaned_data.get('nome')
-        if self.verifica_campo_vazio(nome):
+        if verifica_campo_vazio(nome):
             raise ValidationError('O campo "Nome do jogo" não pode ficar em branco.')
-        if nome == None:
+        if nome is None:
             raise ValidationError('Digite um valor válido.')
         return nome
 
-
     def clean_empresa_desenvolvedora(self):
         empresa = self.cleaned_data.get('empresa_desenvolvedora')
-        if self.verifica_campo_vazio(empresa):
+        if verifica_campo_vazio(empresa):
             raise ValidationError('O campo "Desenvolvedor" não pode ficar em branco.')
-        if empresa == None:
+        if empresa is None:
             raise ValidationError('Digite um valor válido.')
         return empresa
-
 
     def clean_ano_lancamento(self):
         ano_atual = datetime.today().year
         ano = self.cleaned_data.get('ano_lancamento')
-
-        if ano == None:
+        if ano is None:
             raise ValidationError('Digite um valor válido.')
         if ano < 2004 or ano > ano_atual:
             raise ValidationError(f'O ano digitado deve estar entre 2004 e {ano_atual}.')
-        
         return ano
-
-    def verifica_campo_vazio(self, campo):
-        return not campo.strip()
-
-    

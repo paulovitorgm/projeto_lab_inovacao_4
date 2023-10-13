@@ -2,7 +2,7 @@
 
 
 {% block partials_base %}
-<form action="{% url 'cadastrar_usuario' %}" method="POST">    
+<form action="{% url 'cadastrar_usuario' %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
 
     {% for campo in form %}
