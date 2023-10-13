@@ -43,14 +43,14 @@ def cadastrar_usuario(request):
             disponivel_para_torneio = True if request.POST.get('disponivel_para_torneio') == "on" else False
             foto_de_perfil = request.FILES.get('foto_de_perfil')
 
-
             try:
                 usuario_tabela_user = User.objects.create_user(username=usuario, email=email, password=senha,
                                                                first_name=nome, last_name=sobrenome)
-                # FALTA IMPLEMENTAR A RECEPÇÃO DA IMAGEM
                 Usuario.objects.create(discord=discord, disponivel_para_torneio=disponivel_para_torneio,
                                        id_usuario=usuario_tabela_user, foto_de_perfil=foto_de_perfil)
-                envia_email_quando_cria_usuario(nome, destinatario=email)
+
+                # envia_email_quando_cria_usuario(nome, destinatario=email)
+
                 messages.success(request, f"Usuário {usuario} salvo com sucesso.")
                 return redirect('login')
             except IntegrityError as e:
