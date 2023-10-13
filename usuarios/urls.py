@@ -14,6 +14,10 @@ urlpatterns = [
     path('delete/<int:pk>/', view=deleta_usuario, name='deletar_usuario'),
     path('email/', view=enviar_email, name='enviar_email'),
 
+
+
+
+
     path('resetar_senha/', views_auth.PasswordResetView.as_view(template_name='registration/password_reset_form.html'),
          name='resetar_senha'),
 
