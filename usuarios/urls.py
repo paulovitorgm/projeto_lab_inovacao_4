@@ -1,6 +1,6 @@
 from django.urls import path
 from usuarios.views import (cadastrar_usuario, editar_usuario,
-                            alterar_senha, deleta_usuario, enviar_email)
+                            alterar_senha, deleta_usuario, enviar_email, editar_user)
 from django.contrib.auth import views as views_auth
 from django.conf import settings
 from django.conf.urls.static import static
@@ -9,7 +9,8 @@ from django.conf.urls.static import static
 urlpatterns = [
 
     path('cadastro/', view=cadastrar_usuario, name='cadastrar_usuario'),
-    path('editar/', view=editar_usuario, name='editar_usuario'),
+    path('editar_usuario/', view=editar_usuario, name='editar_usuario'),
+    path('editar_user', view=editar_user, name='editar_user'),
     path('altera_senha/', view=alterar_senha, name='alterar_senha'),
     path('delete/<int:pk>/', view=deleta_usuario, name='deletar_usuario'),
     path('email/', view=enviar_email, name='enviar_email'),
