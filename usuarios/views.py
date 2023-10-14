@@ -78,7 +78,7 @@ def editar_usuario(request):
     if request.method == "POST":
         usuario.discord, usuario.disponivel_para_torneio, usuario.foto_de_perfil = recebe_campos_usuario(request)
         usuario.save()
-
+        return redirect('index')
     return render(request, 'editar_usuario.html', contexto)
 
 
@@ -121,17 +121,3 @@ def recebe_campos_usuario(request):
     return discord, disponivel_para_torneio, foto_de_perfil
 
 
-def enviar_email(assunto, mensagem, destinatario):
-    send_mail(assunto, mensagem, DEFAULT_FROM_EMAIL, recipient_list=[destinatario])
-
-
-def envia_email_quando_cria_usuario(nome, destinatario):
-    assunto = "Criação de conta"
-    mensagem = f"Obrigado {nome} pelo registro na nossa plataforma, agora você pode desfrutar dos nossos serviços."
-    enviar_email(assunto, mensagem, destinatario)
-
-
-def envia_email_quando_altera_usuario(nome, destinatario):
-    assunto = "Alteração de usuário"
-    mensagem = f"{nome} seus dados foram atualizados com sucesso."
-    enviar_email(assunto, mensagem, destinatario)
