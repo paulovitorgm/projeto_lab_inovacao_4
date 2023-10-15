@@ -61,7 +61,7 @@ def editar_user(request):
     if request.method == "POST":
         try:
             usuario.username, usuario.email, usuario.first_name, usuario.last_name = recebe_campos_user(request)
-            usuario.save()
+            usuario.save(update_fields=['username', 'first_name', 'last_name', 'email'])
             messages.success(request, f"Usuario {usuario.username} editado com sucesso")
             return redirect('index')
         except IntegrityError as e:
@@ -77,7 +77,7 @@ def editar_usuario(request):
     contexto = {"form": form}
     if request.method == "POST":
         usuario.discord, usuario.disponivel_para_torneio, usuario.foto_de_perfil = recebe_campos_usuario(request)
-        usuario.save()
+        usuario.save(update_fields=['discord', 'disponivel_para_torneio', 'foto_de_perfil'])
         return redirect('index')
     return render(request, 'editar_usuario.html', contexto)
 
@@ -121,3 +121,5 @@ def recebe_campos_usuario(request):
     return discord, disponivel_para_torneio, foto_de_perfil
 
 
+def enviar_email(assunto, mensagem, destinatario):
+    send_mail(assunto, mensagem, DEFAULT_FROM_EMAIL, recipient_list=[destinatario])

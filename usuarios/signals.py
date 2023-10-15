@@ -1,31 +1,28 @@
 from django.contrib.auth.models import User
-from django.core.mail import send_mail, send_mass_mail
 from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from usuarios.models import Usuario
-from ProjetoJogos.settings import DEFAULT_FROM_EMAIL
+from usuarios.views import enviar_email
 
 
-def email_confirmacao_de_cadastro(sender, instance, created, **kwargs):
+@receiver(post_save, sender=User)
+def email_confirmacao_ou_alteracao_de_cadastro(sender, instance, created, **kwargs):
     if created:
         envia_email_quando_cria_usuario(instance.first_name, instance.email)
-    else:
+    elif "last_login" in kwargs.get('update_fields'):
+        pass
+    elif kwargs.get('update_fields'):
         envia_email_quando_altera_usuario(instance.first_name, instance.email)
 
 
-def email_avisando_alteracao_de_cadastro(sender, instance, created, **kwargs):
-    if not created:
-        usuario = User.objects.filter(usuario=instance).first()
+@receiver(post_save, sender=Usuario)
+def email_alteracao_usuario(sender, instance, created, **kwargs):
+    if not created and kwargs.get('update_fields'):
+        usuario = User.objects.get(pk=instance.id_usuario_id)
+        # usuario = User.objects.filter(pk=instance.id_usuario_id).first()
         envia_email_quando_altera_usuario(usuario.first_name, usuario.email)
-
-
-post_save.connect(email_confirmacao_de_cadastro, sender=User)
-
-post_save.connect(email_avisando_alteracao_de_cadastro, sender=Usuario)
-
-
-def enviar_email(assunto, mensagem, destinatario):
-    send_mail(assunto, mensagem, DEFAULT_FROM_EMAIL, recipient_list=[destinatario])
+        print(kwargs)
 
 
 def envia_email_quando_cria_usuario(nome, destinatario):
