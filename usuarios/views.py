@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 
 from ProjetoJogos.settings import DEFAULT_FROM_EMAIL
 from usuarios.formularios.UsuarioJogaForm import UsuarioJogaForm
-from usuarios.models import Usuario
+from usuarios.models import Usuario, NickUsuario, UsuarioJoga
 from usuarios.forms import UsuarioForm, EditaUsuarioForm, EditaUserForm
 from jogos.models import Jogos
 
@@ -111,6 +111,24 @@ def alterar_senha(request):
 def cadastrar_nick(request):
     form = UsuarioJogaForm()
     contexto = {'form': form}
+
+    JOGOS = tuple([(campo.pk, campo.nome) for campo in Jogos.objects.all()])
+    print(JOGOS)
+
+    if request.method == "POST":
+        jogo, nick, regiao_server, link_perfil_jogador, plataforma = recebe_campos_nick(request)
+        print(jogo * 1000)
+        try:
+            nick_usuario = NickUsuario.objects.create(usuario_id_id=request.user.pk, nick=nick,
+                                                      regiao_server=regiao_server)
+            UsuarioJoga.objects.create(nick_jogador_id=nick_usuario, jogo_id=jogo,
+                                                      link_perfil_jogador=link_perfil_jogador, plataforma=plataforma)
+            print(nick_usuario ,"------\n------", nick_usuario.pk)
+            messages.success(request, f"Nick {nick} salvo com sucesso.")
+            return HttpResponse(messages.error(request, f'Salvo com sucesso {nick}'))
+        except:
+            return HttpResponse(messages.error(request, f'Erro ao salvar novo nick'))
+
     return render(request, 'form_nick.html', contexto)
 
 
@@ -138,6 +156,14 @@ def recebe_campos_usuario(request):
     foto_de_perfil = request.FILES.get('foto_de_perfil')
     return discord, disponivel_para_torneio, foto_de_perfil
 
+
+def recebe_campos_nick(request):
+    jogo = request.POST.get('jogo')
+    nick = request.POST.get('nick')
+    regiao_server = request.POST.get('regiao_server')
+    link_perfil_jogador = request.POST.get('link_perfil_jogador')
+    plataforma = request.POST.get('plataforma')
+    return jogo, nick, regiao_server, link_perfil_jogador, plataforma
 
 def enviar_email(assunto, mensagem, destinatario):
     send_mail(assunto, mensagem, DEFAULT_FROM_EMAIL, recipient_list=[destinatario])

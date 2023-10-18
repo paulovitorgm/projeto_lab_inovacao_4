@@ -5,12 +5,12 @@ from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
 
 
-PLATAFORMAS_CHOICES = (
+PLATAFORMA = (
                 ('PC', 'PC'),
                 ('PS', 'PlayStation'),
                 ('XB', 'XBox'),
                 ('MB', 'Mobile')
-              )
+             )
 
 
 def verifica_campo_vazio(campo):
@@ -21,7 +21,7 @@ class JogosForm(forms.ModelForm):
     nome = forms.CharField(label='Nome do jogo', max_length=100, strip=True, required=True, 
                            widget=forms.TextInput(attrs={'placeholder': 'World of Warcraft',
                                                          'class': '', 'autocomplete': 'off'}))
-    
+
     empresa_desenvolvedora = forms.CharField(label='Desenvolvedor', max_length=100, strip=True, required=True, 
                                              widget=forms.TextInput(attrs={'placeholder': 'Blizzard',
                                                                            'class': '', 'autocomplete': 'off'}))
@@ -29,17 +29,17 @@ class JogosForm(forms.ModelForm):
     ano_lancamento = forms.IntegerField(label='Ano de lançamento', max_value=datetime.today().year, min_value=2004,
                                         required=True, widget=forms.NumberInput(
                                         attrs={'placeholder': '2021', 'class': '', 'autocomplete': 'off'}))
-    
-    plataforma = forms.MultipleChoiceField(label='Plataforma', choices=PLATAFORMAS_CHOICES, required=True,  
-                                   widget=forms.CheckboxSelectMultiple(attrs={'class': ''}))
-    
+
+    plataforma = forms.MultipleChoiceField(label='Plataforma', choices=PLATAFORMA, required=True,
+                                   widget=forms.CheckboxSelectMultiple(attrs={'class': ''}, ))
+
     imagem = forms.ImageField(label='Foto de perfil', required=False, help_text='PNG, JPEG, JPG',
                               validators=[FileExtensionValidator(allowed_extensions=['png', 'jpeg', 'jpg'],
                               message='Arquivo inválido')], widget=forms.FileInput(attrs={'class': ''}))
 
     class Meta:
         model = Jogos
-        fields = '__all__'
+        fields = ['nome', 'empresa_desenvolvedora', 'ano_lancamento', 'plataforma', 'imagem']
 
     def clean_nome(self):
         nome = self.cleaned_data.get('nome')

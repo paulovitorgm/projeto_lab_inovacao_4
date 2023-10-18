@@ -1,29 +1,29 @@
 from django import forms
-from django.shortcuts import get_list_or_404
 
 from jogos.models import Jogos, Plataforma
 from usuarios.models import UsuarioJoga
 
 
 PLATAFORMA = (
-              ('PC', 'PC'),
-              ('PS', 'Playstation'),
-              ('XB', 'Xbox'),
-              ('MB', 'Mobile')
+                ('PC', 'PC'),
+                ('PS', 'PlayStation'),
+                ('XB', 'XBox'),
+                ('MB', 'Mobile')
               )
-JOGOS = tuple([(campo.nome, campo.nome) for campo in Jogos.objects.all()])
+
+JOGOS = tuple([(campo.pk, campo.nome) for campo in Jogos.objects.all()])
 
 
 class UsuarioJogaForm(forms.ModelForm):
     jogo = forms.ChoiceField(label="Jogo *", choices=JOGOS)
 
+    regiao_server = forms.CharField(max_length=50, strip=True, required=True, label="Servidor *",
+                                    widget=forms.TextInput(
+                                        attrs={'placeholder': 'Americas', 'class': '', 'autocomplete': 'off'}))
+
     nick = forms.CharField(max_length=50, strip=True, required=True, label="Nick *",
                                  widget=forms.TextInput(
                                      attrs={'placeholder': 'Dendi', 'class': '', 'autocomplete': 'off'}))
-
-    regiao_server = forms.CharField(max_length=50, strip=True, required=True, label="Servidor *",
-                                 widget=forms.TextInput(
-                                     attrs={'placeholder': 'Americas', 'class': '', 'autocomplete': 'off'}))
 
     link_perfil_jogador = forms.CharField(max_length=50, strip=True, required=True, label="Nome *",
                                  widget=forms.TextInput(attrs={'placeholder': 'https://steamcommunity.com/profiles/761',

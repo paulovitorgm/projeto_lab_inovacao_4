@@ -20,6 +20,8 @@
         <a href="{% url 'deletar_usuario' user.pk %}" class="btn btn-danger">DELETAR</a>
         <a href="{% url 'alterar_senha' %}" class="btn btn-warning">ALTERAR SENHA</a>
         <a href="{% url 'resetar_senha' %}" class="btn btn-secondary">RESETAR SENHA</a>
+        <a href="{% url 'cadastrar_jogo' %}" class="btn btn-primary">CADASTRAR JOGO</a>
+        <a href="{% url 'cadastrar_nick' %}" class="btn btn-secondary">CADASTRAR NICK</a>
     {% else %}
         <a href="{% url 'login' %}" class="btn btn-primary">Ir para login</a>
         <a href="{% url 'cadastrar_usuario' %}" class="btn btn-warning">Ir para cadastro</a>

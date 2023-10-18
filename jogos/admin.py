@@ -1,5 +1,5 @@
 from django.contrib import admin
-from jogos.models import Jogos
+from jogos.models import Jogos, Plataforma
 
 
 class JogosAdmin(admin.ModelAdmin):
@@ -9,4 +9,10 @@ class JogosAdmin(admin.ModelAdmin):
     list_per_page = 15
 
 
+class PlataformaAdmin(admin.ModelAdmin):
+    list_display = ['id', 'plataforma', 'jogo_id']
+    list_display_links = ['id', 'plataforma', 'jogo_id']
+    list_filter = ['plataforma']
+
 admin.site.register(Jogos, JogosAdmin)
+admin.site.register(Plataforma, PlataformaAdmin)
