@@ -17,6 +17,19 @@
             <input type="submit" value="Buscar" class="botao-salvar" >
         </div>
     </form>
+
+<br><br><br><br>
+<hr>
+    {% for plataforma in plataformas %}
+        {% if plataforma is not list %}
+        <ul>
+
+            <li>-------{{ plataforma }}*****</li>
+
+        </ul>
+        {% endif %}
+    {% endfor %}
+
 <br><br><br><br>
 <h1>JOGOS</h1>
     {% for jogo in jogos %}

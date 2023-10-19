@@ -12,17 +12,18 @@ from ProjetoJogos.settings import DEFAULT_FROM_EMAIL
 from usuarios.formularios.UsuarioJogaForm import UsuarioJogaForm
 from usuarios.models import Usuario, NickUsuario, UsuarioJoga
 from usuarios.forms import UsuarioForm, EditaUsuarioForm, EditaUserForm
-from jogos.models import Jogos
+from jogos.models import Jogos, Plataforma
 
 
 def index(request):
     usuario = Usuario()
     jogos = Jogos.objects.all()
     jogadores = User.objects.all()
+    plataforma = Plataforma.objects.all()
     busca = request.GET.get('busca')
     if busca:
         jogos = jogadores.filter(username__icontains=busca)
-    contexto = {'jogos': jogos, 'usuario': usuario, 'jogadores': jogadores}
+    contexto = {'jogos': jogos, 'usuario': usuario, 'jogadores': jogadores, 'plataformas': plataforma}
     return render(request, 'index.html', contexto)
 
 
