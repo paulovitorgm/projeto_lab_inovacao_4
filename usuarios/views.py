@@ -113,9 +113,6 @@ def cadastrar_nick(request):
     form = UsuarioJogaForm()
     contexto = {'form': form}
 
-    JOGOS = tuple([(campo.pk, campo.nome) for campo in Jogos.objects.all()])
-    print(JOGOS)
-
     if request.method == "POST":
         jogo, nick, regiao_server, link_perfil_jogador, plataforma = recebe_campos_nick(request)
         print(jogo * 1000)
@@ -127,20 +124,10 @@ def cadastrar_nick(request):
             print(nick_usuario ,"------\n------", nick_usuario.pk)
             messages.success(request, f"Nick {nick} salvo com sucesso.")
             return HttpResponse(messages.error(request, f'Salvo com sucesso {nick}'))
-        except:
-            return HttpResponse(messages.error(request, f'Erro ao salvar novo nick'))
+        except IntegrityError as e:
+            return HttpResponse(messages.error(request, f'Erro ao salvar novo nick. Erro: {e}'))
 
     return render(request, 'form_nick.html', contexto)
-
-
-
-
-
-
-
-
-
-
 
 
 def recebe_campos_user(request):
@@ -165,6 +152,7 @@ def recebe_campos_nick(request):
     link_perfil_jogador = request.POST.get('link_perfil_jogador')
     plataforma = request.POST.get('plataforma')
     return jogo, nick, regiao_server, link_perfil_jogador, plataforma
+
 
 def enviar_email(assunto, mensagem, destinatario):
     send_mail(assunto, mensagem, DEFAULT_FROM_EMAIL, recipient_list=[destinatario])

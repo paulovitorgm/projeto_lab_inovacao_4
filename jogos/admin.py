@@ -14,5 +14,6 @@ class PlataformaAdmin(admin.ModelAdmin):
     list_display_links = ['id', 'plataforma', 'jogo_id']
     list_filter = ['plataforma']
 
+
 admin.site.register(Jogos, JogosAdmin)
 admin.site.register(Plataforma, PlataformaAdmin)

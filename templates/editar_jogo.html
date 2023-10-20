@@ -1,0 +1,29 @@
+{% extends 'partials/_base.html' %}
+
+
+
+{% block partials_base %}
+    <div class="container">
+        {% include 'partials/_alertas.html' %}
+        <form action="{% url 'editar_jogo' jogo.id %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <hr>
+            <p><strong>Plataforma</strong></p>
+            {% for p in plataforma %}
+                <div class="m-3 p-3">{{ p }}</div>
+            {% endfor %}
+            <hr>
+            {% for campo in form %}
+                <div class="m-3 p-3">
+                    <label for="{{ campo.id_for_label }}">{{ campo.label }}</label>
+                    {{ campo }}
+                    {{ campo.errors}}
+                </div>
+            {% endfor %}
+
+            <input type="submit" value="Enviar" class="btn btn-primary">
+        </form>
+
+    </div>
+
+{% endblock %}
