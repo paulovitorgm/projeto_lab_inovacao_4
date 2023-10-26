@@ -147,7 +147,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGOUT_REDIRECT_URL = 'login'
 LOGIN_REDIRECT_URL = '/'
 # Tempo em que o usuario permanece logado
-SESSION_COOKIE_AGE = 3000000000000000000000
+SESSION_COOKIE_AGE = 300000
 
 # --- Para sair no terminal
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

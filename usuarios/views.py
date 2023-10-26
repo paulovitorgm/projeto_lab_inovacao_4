@@ -84,9 +84,16 @@ def editar_usuario(request):
     return render(request, 'editar_usuario.html', contexto)
 
 
+# @login_required(login_url='/accounts/login')
+# def deleta_usuario(request, pk):
+#     usuario = get_object_or_404(User, pk=pk)
+#     usuario.delete()
+#     messages.success(request, "Usuário deletado com sucesso.")
+#     return redirect('index')
+
 @login_required(login_url='/accounts/login')
-def deleta_usuario(request, pk):
-    usuario = get_object_or_404(User, pk=pk)
+def deleta_usuario(request):
+    usuario = get_object_or_404(User, pk=request.user.pk)
     usuario.delete()
     messages.success(request, "Usuário deletado com sucesso.")
     return redirect('index')

@@ -12,7 +12,7 @@ urlpatterns = [
     path('editar_usuario/', view=editar_usuario, name='editar_usuario'),
     path('editar_user', view=editar_user, name='editar_user'),
     path('altera_senha/', view=alterar_senha, name='alterar_senha'),
-    path('delete/<int:pk>/', view=deleta_usuario, name='deletar_usuario'),
+    path('delete/', view=deleta_usuario, name='deletar_usuario'),
     path('email/', view=enviar_email, name='enviar_email'),
 
 
