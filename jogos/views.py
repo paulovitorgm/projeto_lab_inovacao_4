@@ -48,3 +48,11 @@ def editar_jogo(request, pk):
         except IntegrityError as e:
             return HttpResponse(messages.error(request, f'Erro ao salvar novo jogo: {e}'))
     return render(request, 'editar_jogo.html', contexto)
+
+
+@login_required(login_url='/accounts/login')
+def deletar_jogo(request, pk):
+    jogo = get_object_or_404(Jogos, pk=pk)
+    jogo.delete()
+    messages.success(request, "Jogo deletado com sucesso.")
+    return redirect('index')
