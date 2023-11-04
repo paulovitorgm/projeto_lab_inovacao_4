@@ -4,13 +4,7 @@ from datetime import datetime
 from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
 
-
-PLATAFORMA = (
-                ('PC', 'PC'),
-                ('PS', 'PlayStation'),
-                ('XB', 'XBox'),
-                ('MB', 'Mobile')
-             )
+PLATAFORMA = tuple([(campo.pk, campo.plataforma) for campo in Plataforma.objects.all()])
 
 
 def verifica_campo_vazio(campo):
@@ -18,20 +12,20 @@ def verifica_campo_vazio(campo):
 
 
 class JogosForm(forms.ModelForm):
-    nome = forms.CharField(label='Nome do jogo', max_length=100, strip=True, required=True, 
+    nome = forms.CharField(label='Nome do jogo *', max_length=100, strip=True, required=True,
                            widget=forms.TextInput(attrs={'placeholder': 'World of Warcraft',
                                                          'class': '', 'autocomplete': 'off'}))
 
-    empresa_desenvolvedora = forms.CharField(label='Desenvolvedor', max_length=100, strip=True, required=True, 
+    empresa_desenvolvedora = forms.CharField(label='Desenvolvedor *', max_length=100, strip=True, required=True,
                                              widget=forms.TextInput(attrs={'placeholder': 'Blizzard',
                                                                            'class': '', 'autocomplete': 'off'}))
     
-    ano_lancamento = forms.IntegerField(label='Ano de lançamento', max_value=datetime.today().year, min_value=2004,
+    ano_lancamento = forms.IntegerField(label='Ano de lançamento *', max_value=datetime.today().year, min_value=2004,
                                         required=True, widget=forms.NumberInput(
                                         attrs={'placeholder': '2021', 'class': '', 'autocomplete': 'off'}))
 
-    plataforma = forms.MultipleChoiceField(label='Plataforma', choices=PLATAFORMA, required=True,
-                                   widget=forms.CheckboxSelectMultiple(attrs={'class': ''}, ))
+    plataforma = forms.ModelChoiceField(label='Plataforma *', empty_label="Plataforma",
+                                        queryset=Plataforma.objects.all())
 
     imagem = forms.ImageField(label='Foto de perfil', required=False, help_text='PNG, JPEG, JPG',
                               validators=[FileExtensionValidator(allowed_extensions=['png', 'jpeg', 'jpg'],
@@ -80,9 +74,12 @@ class EditaJogosForm(forms.ModelForm):
                                         required=True, widget=forms.NumberInput(
             attrs={'placeholder': '2021', 'class': '', 'autocomplete': 'off'}))
 
+    plataforma = forms.ModelChoiceField(label='Plataforma *', empty_label="Plataforma",
+                                        queryset=Plataforma.objects.all())
+
     class Meta:
         model = Jogos
-        fields = ['nome', 'empresa_desenvolvedora', 'ano_lancamento']
+        fields = ['nome', 'empresa_desenvolvedora', 'ano_lancamento', 'plataforma']
 
     def clean(self):
         cleaned_data = super().clean()

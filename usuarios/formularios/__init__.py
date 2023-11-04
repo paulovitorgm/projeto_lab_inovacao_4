@@ -1,1 +1,1 @@
-from usuarios.formularios import UsuarioJogaForm
+from usuarios.formularios import NickUsuarioForm

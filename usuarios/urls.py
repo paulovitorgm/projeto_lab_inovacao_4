@@ -1,5 +1,5 @@
 from django.urls import path
-from usuarios.views import (cadastrar_usuario, editar_usuario, editar_user,
+from usuarios.views import (cadastrar_usuario, editar_usuario, editar_user, cadastrar_nick,
                             alterar_senha, deleta_usuario, enviar_email)
 from django.contrib.auth import views as views_auth
 from django.conf import settings
@@ -14,6 +14,7 @@ urlpatterns = [
     path('altera_senha/', view=alterar_senha, name='alterar_senha'),
     path('delete/', view=deleta_usuario, name='deletar_usuario'),
     path('email/', view=enviar_email, name='enviar_email'),
+    path('cadastrar_nick/', view=cadastrar_nick, name='cadastrar_nick'),
 
 
 

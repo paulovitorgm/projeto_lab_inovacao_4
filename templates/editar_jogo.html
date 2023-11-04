@@ -7,11 +7,7 @@
         {% include 'partials/_alertas.html' %}
         <form action="{% url 'editar_jogo' jogo.id %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            <hr>
-            <p><strong>Plataforma</strong></p>
-            {% for p in plataforma %}
-                <div class="m-3 p-3">{{ p }}</div>
-            {% endfor %}
+
             <hr>
             {% for campo in form %}
                 <div class="m-3 p-3">

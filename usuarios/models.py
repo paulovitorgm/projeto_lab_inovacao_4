@@ -14,19 +14,17 @@ class Usuario(models.Model):
 
 
 class NickUsuario(models.Model):
-    usuario_id = models.ForeignKey(Usuario, on_delete=models.CASCADE, null=False, blank=False, related_name="nicknames")
     nick = models.CharField(unique=True, max_length=100, blank=True)
     regiao_server = models.CharField(max_length=75, blank=True)
+    link_perfil_jogador = models.CharField(max_length=150, blank=True, unique=True)
+    usuario_id = models.ForeignKey(Usuario, on_delete=models.CASCADE, null=False, blank=False, related_name="nicknames")
+    plataforma = models.ForeignKey(Plataforma, on_delete=models.CASCADE, related_name="plataforma_usada")
+    jogo = models.ForeignKey(Jogos, on_delete=models.CASCADE, related_name="jogo")
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['nick', 'regiao_server', 'jogo'], name='combinacao_unique')
+        ]
 
     def __str__(self):
         return self.nick
-
-
-class UsuarioJoga(models.Model):
-    nick_jogador = models.ForeignKey(NickUsuario, on_delete=models.CASCADE, related_name="nickname")
-    jogo = models.ForeignKey(Jogos, on_delete=models.CASCADE, related_name="jogo")
-    link_perfil_jogador = models.CharField(max_length=150, blank=True)
-    plataforma = models.ForeignKey(Plataforma, on_delete=models.CASCADE, related_name="plataforma_usada")
-
-    def __str__(self):
-        return self.nick_jogador, '-', self.jogo.nome

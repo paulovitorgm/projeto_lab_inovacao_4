@@ -9,8 +9,8 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 
 from ProjetoJogos.settings import DEFAULT_FROM_EMAIL
-from usuarios.formularios.UsuarioJogaForm import UsuarioJogaForm
-from usuarios.models import Usuario, NickUsuario, UsuarioJoga
+from usuarios.formularios.NickUsuarioForm import UsuarioJogaForm
+from usuarios.models import Usuario
 from usuarios.forms import UsuarioForm, EditaUsuarioForm, EditaUserForm
 from jogos.models import Jogos, Plataforma
 
@@ -84,13 +84,6 @@ def editar_usuario(request):
     return render(request, 'editar_usuario.html', contexto)
 
 
-# @login_required(login_url='/accounts/login')
-# def deleta_usuario(request, pk):
-#     usuario = get_object_or_404(User, pk=pk)
-#     usuario.delete()
-#     messages.success(request, "Usuário deletado com sucesso.")
-#     return redirect('index')
-
 @login_required(login_url='/accounts/login')
 def deleta_usuario(request):
     usuario = get_object_or_404(User, pk=request.user.pk)
@@ -117,24 +110,15 @@ def alterar_senha(request):
 
 @login_required(login_url='/accounts/login')
 def cadastrar_nick(request):
-    form = UsuarioJogaForm()
+    form = UsuarioJogaForm
     contexto = {'form': form}
-
-    if request.method == "POST":
-        jogo, nick, regiao_server, link_perfil_jogador, plataforma = recebe_campos_nick(request)
-        print(jogo * 1000)
-        try:
-            nick_usuario = NickUsuario.objects.create(usuario_id_id=request.user.pk, nick=nick,
-                                                      regiao_server=regiao_server)
-            UsuarioJoga.objects.create(nick_jogador_id=nick_usuario, jogo_id=jogo,
-                                                      link_perfil_jogador=link_perfil_jogador, plataforma=plataforma)
-            print(nick_usuario ,"------\n------", nick_usuario.pk)
-            messages.success(request, f"Nick {nick} salvo com sucesso.")
-            return HttpResponse(messages.error(request, f'Salvo com sucesso {nick}'))
-        except IntegrityError as e:
-            return HttpResponse(messages.error(request, f'Erro ao salvar novo nick. Erro: {e}'))
-
-    return render(request, 'form_nick.html', contexto)
+    if request.method == 'POST':
+        form = UsuarioJogaForm(request.POST)
+        if form.is_valid():
+            form.save()
+        messages.success(request, f"Nick {request.POST.get('nick')} salvo com sucesso.")
+        return redirect('index')
+    return render(request, 'form_usuario_joga.html', contexto)
 
 
 def recebe_campos_user(request):

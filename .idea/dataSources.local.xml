@@ -14,7 +14,9 @@
             <node kind="database" qname="@">
               <node kind="schema" qname="@" />
             </node>
-            <node kind="database" qname="projeto_laboratorio_4" />
+            <node kind="database" qname="projeto_laboratorio_4">
+              <node kind="schema" negative="1" />
+            </node>
           </node>
         </introspection-scope>
       </schema-mapping>
