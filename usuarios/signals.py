@@ -7,13 +7,15 @@ from usuarios.views import enviar_email
 
 
 @receiver(post_save, sender=User)
-def email_confirmacao_ou_alteracao_de_cadastro(sender, instance, created, **kwargs):
+def email_criacao_de_cadastro(sender, instance, created, **kwargs):
     if created:
         envia_email_quando_cria_usuario(instance.first_name, instance.email)
-    elif "last_login" in kwargs.get('update_fields'):
-        pass
-    elif kwargs.get('update_fields'):
-        envia_email_quando_altera_usuario(instance.first_name, instance.email)
+
+
+@receiver(post_save, sender=User)
+def email_alteracao_de_cadastro(sender, instance, created, **kwargs):
+    if not created and kwargs.get('update_fields') and not ("last_login" in kwargs.get('update_fields')):
+         envia_email_quando_altera_usuario(instance.first_name, instance.email)
 
 
 @receiver(post_save, sender=Usuario)

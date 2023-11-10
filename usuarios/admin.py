@@ -9,4 +9,5 @@ class UsuarioAdmin(admin.ModelAdmin):
     list_per_page = 15
 
 
+
 admin.site.register(Usuario, UsuarioAdmin)

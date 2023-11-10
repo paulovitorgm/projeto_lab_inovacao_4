@@ -4,50 +4,49 @@
 
 
 {% block partials_base %}
+    <div class="container">
+        <form action="{% url 'index' %}" method="GET">
+            {% csrf_token %}
+                <div class="form-floating">
+                    <input type="text" class="form-control" placeholder="Ex: Paulo Vitor" required autocomplete="off" id="busca">
+                    <label for="busca">Encontre um jogador</label>
+                </div>
+                <input type="submit" value="Buscar" class="btn btn-primary" >
+        </form>
+    </div>
 
-<br><br><br><br>
-    <form action="{% url 'index' %}" method="GET">
-        {% csrf_token %}
-        <div class="">
-            <div class="">
-                <label for="busca">Encontre um jogador</label>
-                <input type="text" name="busca" placeholder="Ex: Paulo Vitor" required autocomplete="off" id="busca">
+
+    <div class="container d-flex">
+        <h1>JOGOS</h1>
+        {% for jogo in jogos %}
+            <div class="card m-3" style="width: 18rem;">
+                {% if jogo.imagem %}
+                    <img src="{{ jogo.imagem }}" class="card-img-top" alt="...">
+                {% else %}
+                          <svg class="bd-placeholder-img card-img-top" width="100%" height="180"
+                               xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap"
+                               preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
+                              <rect width="100%" height="100%" fill="#868e96"></rect><text x="5%" y="50%"
+                          fill="#dee2e6" dy=".3em">Jogo sem imagem ainda</text></svg>
+                {% endif %}
+                <div class="card-body">
+                    <p class="card-text"><strong>Jogo: </strong>{{ jogo.nome }}</p>
+                    <p class="card-text"><strong>Desenvolvedor: </strong>{{ jogo.empresa_desenvolvedora }}</p>
+                    <p class="card-text"><strong>Lançamento: </strong>{{ jogo.ano_lancamento }}</p>
+                </div>
             </div>
+        {% endfor %}
+    </div>
 
-            <input type="submit" value="Buscar" class="botao-salvar" >
-        </div>
-    </form>
 
-<br><br><br><br>
-<hr>
-    {% for plataforma in plataformas %}
-        {% if plataforma is not list %}
-        <ul>
-
-            <li>-------{{ plataforma }}*****</li>
-
+    <h2>JOGADORES</h2>
+    <div class="container">
+        <ul class="list-group list-group-flush">
+            {% for jogador in jogadores %}
+                <li class="list-group-item"> {{ jogador }}</li>
+            {% endfor%}
         </ul>
-        {% endif %}
-    {% endfor %}
-
-<br><br><br><br>
-<h1>JOGOS</h1>
-    {% for jogo in jogos %}
-    <ul>
-        <li>{{ jogo }}</li>
-    </ul>
-    {% endfor %}
-<br><br>
-<hr>
-<h2>JOGADORES</h2>
-    {% for jogador in jogadores %}
-
-    <ul>
-        <li>{{jogador}}</li>
-    </ul>
-    {% endfor%}
-
-
+    </div>
 {% include 'partials/_alertas.html' %}
 
 {% endblock %}
