@@ -1,6 +1,6 @@
 from pathlib import Path, os
 from dotenv import load_dotenv
-
+from django.contrib.messages import constants as messages
 
 
 load_dotenv()
@@ -124,6 +124,13 @@ USE_I18N = True
 
 USE_TZ = True
 
+MESSAGE_TAGS = {
+    messages.DEBUG: "debug",
+    messages.INFO: "info",
+    messages.SUCCESS: "success",
+    messages.WARNING: "warning",
+    messages.ERROR: "danger",
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -132,10 +139,10 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 
 
-
 # Media
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL = '/media/'
+
 
 
 # Default primary key field type

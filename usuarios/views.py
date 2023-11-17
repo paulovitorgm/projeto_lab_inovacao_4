@@ -20,10 +20,16 @@ def index(request):
     jogos = Jogos.objects.all()
     jogadores = User.objects.all()
     plataforma = Plataforma.objects.all()
-    busca = request.GET.get('busca')
-    if busca:
-        jogos = jogadores.filter(username__icontains=busca)
     contexto = {'jogos': jogos, 'usuario': usuario, 'jogadores': jogadores, 'plataformas': plataforma}
+
+    if 'busca' in request.GET:
+        busca = request.GET.get('busca')
+        jogadores_encontrados = jogadores.filter(username__icontains=busca)
+        if jogadores_encontrados.first() is None:
+            messages.error(request, 'Nenhum jogador encontrado. Tente novamente.')
+
+        contexto = {'jogos': jogos, 'usuario': usuario, 'jogadores': jogadores,
+                    'plataformas': plataforma, 'busca': jogadores_encontrados}
     return render(request, 'index.html', contexto)
 
 

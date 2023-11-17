@@ -4,11 +4,12 @@
     <form action="{% url 'alterar_senha' %}" method="POST" class="m-3 p-3">
         {% csrf_token %}
         {% for campo in form %}
-            <div class="mb-3">
-                <label for="{{ campo.id_for_label }}">{{ campo.label }}</label>
+            <div class="container w-25 mt-5 p-3">
                 {{ campo }}
+                <label for="{{ campo.id_for_label }}">{{ campo.label }}</label>
                 {{ campo.errors }}
             </div>
+
         {% endfor %}
         <input type="submit" value="Enviar" class="btn btn-primary">
         <input type="reset" value="Limpar" class="btn btn-warning">

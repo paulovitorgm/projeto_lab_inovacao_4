@@ -2,19 +2,20 @@
 
 
 {% block partials_base %}
-<form action="{% url 'cadastrar_usuario' %}" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
+    <div class="container">
+        <form action="{% url 'cadastrar_usuario' %}" method="POST" enctype="multipart/form-data" class="">
+            {% csrf_token %}
 
-    {% for campo in form %}
-        <div class="mb-3">
-            <label for="{{ campo.id_for_label }}">{{ campo.label }}</label>
-            {{ campo }}
-            {{ campo.errors}}
-        </div>
-    {% endfor %}
-        {% include 'partials/_alertas.html' %}
-    <input type="submit" value="Enviar" class="btn btn-primary">
-    <input type="reset" value="Limpar" class="btn btn-warning">
-</form>
-
+            {% for campo in form %}
+                <div class="form-floating mb-3">
+                    {{ campo }}
+                    <label for="{{ campo.id_for_label }}">{{ campo.label }}</label>
+                    {{ campo.errors}}
+                </div>
+            {% endfor %}
+                {% include 'partials/_alertas.html' %}
+            <input type="submit" value="Enviar" class="btn btn-primary">
+            <input type="reset" value="Limpar" class="btn btn-warning">
+        </form>
+    </div>
 {% endblock %}

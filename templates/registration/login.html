@@ -6,19 +6,22 @@
     <p>Login ou senha inválidos. Tente novamente</p>
 {% endif %}
 
-    <form method="post" action="{% url 'login' %}" class="m-3 p-3">
-        {% csrf_token %}
-            {% for campo in form %}
-            <div class="m-1 p-1">
-                <label for="{{ campo.id_for_label }}">{{ campo.label }}</label>
-                {{ campo }}
-                {{ campo.errors}}
-            </div>
-            {% endfor %}
-        <input type="submit" value="Login" class="btn btn-primary">
-        <input type="reset" value="Limpar" class="btn btn-warning">
-    </form>
-    <a href="{% url 'resetar_senha' %}"><button class="btn btn-danger"> Esqueceu a senha? </button></a>
-
+    <div class="container">
+        <h1> <span class="badge text-light p-3">Fazer login</span> </h1>
+        <form method="post" action="{% url 'login' %}" class="mb-3 p-3">
+            {% csrf_token %}
+                <div class="form-floating mb-3">
+                    <input class="form-control" type="text" placeholder="dendi" autocomplete="off" name="username">
+                    <label for="username">Nome de usuário</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input class="form-control" type="password" placeholder="********" autocomplete="off" name="password">
+                    <label for="password">Senha</label>
+                </div>
+            <input type="submit" value="Login" class="btn btn-primary">
+            <input type="reset" value="Limpar" class="btn btn-warning">
+        </form>
+        <a href="{% url 'resetar_senha' %}"><button class="btn btn-danger"> Esqueceu a senha? </button></a>
+    </div>
 
 {% endblock %}

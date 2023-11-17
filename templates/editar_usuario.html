@@ -2,19 +2,17 @@
 
 
 {% block partials_base %}
-    <div class="container">
+    <div class="container w-25 mt-5 p-3">
         {% include 'partials/_alertas.html' %}
         <form action="{% url 'editar_usuario' %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-
             {% for campo in form %}
-                <div class="m-3 p-3">
-                    <label for="{{ campo.id_for_label }}">{{ campo.label }}</label>
+                <div class="form-floating mb-3">
                     {{ campo }}
+                    <label for="{{ campo.id_for_label }}">{{ campo.label }}</label>
                     {{ campo.errors}}
                 </div>
             {% endfor %}
-
             <input type="submit" value="Enviar" class="btn btn-primary">
         </form>
 

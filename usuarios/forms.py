@@ -12,35 +12,35 @@ DISPONIVEL = (("S", "Sim"), ("N", "Não"))
 class UsuarioForm(forms.ModelForm):
     first_name = forms.CharField(max_length=50, strip=True, required=True, label="Nome *",
                                  widget=forms.TextInput(
-                                     attrs={'placeholder': 'José da Silva', 'class': '', 'autocomplete': 'off',
+                                     attrs={'placeholder': 'José da Silva', 'class': 'form-control', 'autocomplete': 'off',
                                             'oninput': 'receber_apenas_letras(this)'}))
     last_name = forms.CharField(max_length=50, strip=True, required=True, label="Sobrenome *",
                                 widget=forms.TextInput(
-                                    attrs={'placeholder': 'José da Silva', 'class': '', 'autocomplete': 'off',
+                                    attrs={'placeholder': 'José da Silva', 'class': 'form-control', 'autocomplete': 'off',
                                            'oninput': 'receber_apenas_letras(this)'}))
 
     email = forms.EmailField(max_length=100, required=True, label="Email * ",
-                             widget=forms.EmailInput(attrs={'placeholder': 'email@email.com', 'class': '',
+                             widget=forms.EmailInput(attrs={'placeholder': 'email@email.com', 'class': 'form-control',
                                                             'autocomplete': 'off'}), validators=[EmailValidator()])
     username = forms.CharField(max_length=50, strip=True, required=True, label="Usuário *",
                                widget=forms.TextInput(
-                                   attrs={'placeholder': 'Dendi', 'class': '', 'autocomplete': 'off'}))
+                                   attrs={'placeholder': 'Dendi', 'class': 'form-control', 'autocomplete': 'off'}))
 
     password = forms.CharField(max_length=60, min_length=8, strip=True, required=True, label="Senha *",
                             widget=forms.PasswordInput(attrs={'placeholder': '********',
-                                                              'class': '', 'autocomplete': 'off'}))
+                                                              'class': 'form-control', 'autocomplete': 'off'}))
     senha_confirmacao = forms.CharField(max_length=60, min_length=8, strip=True, required=True,
                                         label="Confirme sua senha *",
                                         widget=forms.PasswordInput(
-                                            attrs={'placeholder': '********', 'class': '', 'autocomplete': 'off'}))
+                                            attrs={'placeholder': '********', 'class': 'form-control', 'autocomplete': 'off'}))
     discord = forms.CharField(max_length=60, strip=True, required=False, label="Discord",
                               widget=forms.TextInput(attrs={'placeholder': 'link do discord',
-                                                            'class': '', 'autocomplete': 'off'}))
+                                                            'class': 'form-control', 'autocomplete': 'off'}))
 
-    disponivel_para_torneio = forms.ChoiceField(label="Está disponível para torneios", choices=DISPONIVEL)
+    disponivel_para_torneio = forms.ChoiceField(label="Está disponível para torneios", choices=DISPONIVEL, widget=forms.Select(attrs={'class':'form-select'}))
 
     foto_de_perfil = forms.ImageField(label='Foto de perfil', required=False,
-                                      widget=forms.FileInput(attrs={'class': ''}))
+                                      widget=forms.FileInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Usuario
@@ -71,19 +71,26 @@ class UsuarioForm(forms.ModelForm):
 class ResetarSenhaForm:
     email = forms.EmailField(max_length=100, required=True, label="Email",
                              widget=forms.EmailInput(
-                                 attrs={'placeholder': 'email@email.com', 'class': '', 'autocomplete': 'off'}),
+                                 attrs={'placeholder': 'email@email.com', 'class': 'form-control', 'autocomplete': 'off'}),
                              validators=[EmailValidator()])
 
 
 class EditaUsuarioForm(forms.ModelForm):
-    discord = forms.CharField(max_length=60, strip=True, required=False, label="Discord",
+    discord = forms.CharField(max_length=60,
+                              strip=True,
+                              required=False,
+                              label="Discord",
                               widget=forms.TextInput(attrs={'placeholder': 'link do discord',
-                                                            'class': '', 'autocomplete': 'off'}))
+                                                            'class': 'form-control',
+                                                            'autocomplete': 'off'}))
 
-    disponivel_para_torneio = forms.ChoiceField(label="Está disponível para torneios", choices=DISPONIVEL)
+    disponivel_para_torneio = forms.ChoiceField(label="Está disponível para torneios",
+                                                choices=DISPONIVEL,
+                                                widget=forms.Select(attrs={'class': 'form-select'}))
 
-    foto_de_perfil = forms.ImageField(label='Foto de perfil', required=False,
-                                      widget=forms.FileInput(attrs={'class': ''}))
+    foto_de_perfil = forms.ImageField(label='Foto de perfil',
+                                      required=False,
+                                      widget=forms.FileInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Usuario
@@ -93,19 +100,19 @@ class EditaUsuarioForm(forms.ModelForm):
 class EditaUserForm(forms.ModelForm):
     first_name = forms.CharField(max_length=50, strip=True, required=True, label="Nome *",
                            widget=forms.TextInput(
-                               attrs={'placeholder': 'José da Silva', 'class': '', 'autocomplete': 'off',
+                               attrs={'placeholder': 'José da Silva', 'class': 'form-control', 'autocomplete': 'off',
                                       'oninput': 'receber_apenas_letras(this)'}))
     last_name = forms.CharField(max_length=50, strip=True, required=True, label="Sobrenome *",
                            widget=forms.TextInput(
-                               attrs={'placeholder': 'José da Silva', 'class': '', 'autocomplete': 'off',
+                               attrs={'placeholder': 'José da Silva', 'class': 'form-control', 'autocomplete': 'off',
                                       'oninput': 'receber_apenas_letras(this)'}))
 
     email = forms.EmailField(max_length=100, required=True, label="Email * ",
-                             widget=forms.EmailInput(attrs={'placeholder': 'email@email.com', 'class': '',
+                             widget=forms.EmailInput(attrs={'placeholder': 'email@email.com', 'class': 'form-control',
                                                             'autocomplete': 'off'}), validators=[EmailValidator()])
     username = forms.CharField(max_length=50, strip=True, required=True, label="Usuário *",
                               widget=forms.TextInput(
-                                  attrs={'placeholder': 'Dendi', 'class': '', 'autocomplete': 'off'}))
+                                  attrs={'placeholder': 'Dendi', 'class': 'form-control', 'autocomplete': 'off'}))
 
     class Meta:
         model = User
