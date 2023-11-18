@@ -2,13 +2,12 @@
 
 {% block partials_base %}
 
-{% if form.errors %}
-    <p>Login ou senha inválidos. Tente novamente</p>
-{% endif %}
 
-    <div class="container">
-        <h1> <span class="badge text-light p-3">Fazer login</span> </h1>
-        <form method="post" action="{% url 'login' %}" class="mb-3 p-3">
+
+    <div class="container w-25 mt-5 p-3">
+        <p class="fs-1 text-center"> <span class="badge text-light">Fazer Login</span></p>
+        {% include "partials/_alertas.html" %}
+        <form method="post" action="{% url 'login' %}" class="m-3 p-3">
             {% csrf_token %}
                 <div class="form-floating mb-3">
                     <input class="form-control" type="text" placeholder="dendi" autocomplete="off" name="username">

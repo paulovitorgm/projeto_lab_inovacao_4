@@ -26,7 +26,7 @@ def index(request):
         busca = request.GET.get('busca')
         jogadores_encontrados = jogadores.filter(username__icontains=busca)
         if jogadores_encontrados.first() is None:
-            messages.error(request, 'Nenhum jogador encontrado. Tente novamente.')
+            messages.error(request, f'Jogador "{busca}" não encontrado. Tente novamente.')
 
         contexto = {'jogos': jogos, 'usuario': usuario, 'jogadores': jogadores,
                     'plataformas': plataforma, 'busca': jogadores_encontrados}
@@ -124,7 +124,7 @@ def cadastrar_nick(request):
             form.save()
         messages.success(request, f"Nick {request.POST.get('nick')} salvo com sucesso.")
         return redirect('index')
-    return render(request, 'form_usuario_joga.html', contexto)
+    return render(request, 'form_nick.html', contexto)
 
 
 def recebe_campos_user(request):

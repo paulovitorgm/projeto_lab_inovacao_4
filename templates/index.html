@@ -3,31 +3,6 @@
 {% block partials_base %}
 
 
-    <div class="container w-25">
-        <form action="{% url 'index' %}" method="GET">
-            {% csrf_token %}
-                <div class="form-floating mt-3">
-                    <input type="text" class="form-control" placeholder="Ex: Paulo Vitor" required autocomplete="off" id="busca" name="busca">
-                    <label for="busca">Encontre um jogador</label>
-                </div>
-                <input type="submit" value="Buscar" class="btn btn-primary mt-3" >
-        </form>
-    </div>
-
-
-    <section class="container w-25 mt-5 mb-5">
-        {% if busca %}
-            <ul>
-                {% for resultado in busca %}
-                    <li class="badge text-light fs-5">{{ resultado}}</li>
-                {% endfor %}
-            </ul>
-
-        {% endif %}
-
-        {% include 'partials/_alertas.html' %}
-    </section>
-
 
     <div class="container mt-3 mb-3">
         <p class="fs-1 text-center"> <span class="badge text-light">JOGOS</span></p>
@@ -54,15 +29,45 @@
     </div>
 
 
-    <p class="fs-1 text-center mb-5 mt-5"><span class="badge text-light">JOGADORES</span></p>
-    <div class="container text-center  w-75">
-        <div class="row row-cols-4">
-            {% for jogador in jogadores %}
-                <div class="col">
-                    <p class="badge text-light fs-4">{{ jogador }}</p>
+
+    <p class="fs-1 text-center mb-5 mt-5" id="jogadores"><span class="badge text-light">JOGADORES</span></p>
+    <div class="container w-25">
+        <form action="{% url 'index' %}" method="GET">
+            {% csrf_token %}
+                <div class="form-floating mt-3">
+                    <input type="text" class="form-control" placeholder="Ex: Paulo Vitor" required autocomplete="off" id="busca" name="busca">
+                    <label for="busca">Encontre um jogador</label>
                 </div>
-            {% endfor %}
-        </div>
+                <input type="submit" value="Buscar" class="btn btn-primary mt-3" >
+        </form>
     </div>
+
+
+    <section class="container w-50 mt-5 mb-5">
+        {% if busca %}
+            <ul>
+                {% for resultado in busca %}
+                    <li class="badge text-light fs-5">{{ resultado}}</li>
+                {% endfor %}
+            </ul>
+
+        {% else %}
+
+        {% include 'partials/_alertas.html' %}
+        <div class="container text-center">
+            <div class="row row-cols-3">
+                {% for jogador in jogadores %}
+                    <div class="col">
+                        <p class="badge text-light fs-4">{{ jogador }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+    </section>
+
+
+
 
 {% endblock %}

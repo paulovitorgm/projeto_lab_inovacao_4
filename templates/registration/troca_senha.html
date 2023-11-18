@@ -1,19 +1,31 @@
 {% extends 'partials/_base.html' %}
 {% block partials_base %}
 
-    <form action="{% url 'alterar_senha' %}" method="POST" class="m-3 p-3">
-        {% csrf_token %}
-        {% for campo in form %}
-            <div class="container w-25 mt-5 p-3">
-                {{ campo }}
-                <label for="{{ campo.id_for_label }}">{{ campo.label }}</label>
-                {{ campo.errors }}
-            </div>
+    <div class="container w-25 mt-5 p-3">
+        <p class="fs-1 text-center"> <span class="badge text-light">Trocar senha</span></p>
+        <form action="{% url 'alterar_senha' %}" method="POST" class="m-3 p-3">
+            {% csrf_token %}
 
-        {% endfor %}
-        <input type="submit" value="Enviar" class="btn btn-primary">
-        <input type="reset" value="Limpar" class="btn btn-warning">
-    </form>
+                <div class="form-floating mb-3">
+                    <label for="senha_atual">Senha atual</label>
+                    <input type="password" class="form-control" id="senha_atual" name="old_password" required>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <label for="nova_senha">Nova senha</label>
+                    <input type="password" class="form-control" id="nova_senha" name="new_password1" required>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <label for="confirmar_senha">Confirmar senha</label>
+                    <input type="password" class="form-control" id="confirmar_senha" name="new_password2" required>
+                </div>
+
+
+            <input type="submit" value="Enviar" class="btn btn-primary">
+            <input type="reset" value="Limpar" class="btn btn-warning">
+        </form>
+    </div>
 
 
 

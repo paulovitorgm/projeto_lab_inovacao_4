@@ -3,26 +3,33 @@ from jogos.models import Jogos, Plataforma
 from usuarios.models import NickUsuario
 
 
-JOGOS = tuple([(campo.pk, campo.nome) for campo in Jogos.objects.all()])
-PLATAFORMA = tuple([(campo.pk, campo.plataforma) for campo in Plataforma.objects.all()])
-
-
 class UsuarioJogaForm(forms.ModelForm):
-    nick = forms.CharField(max_length=50, strip=True, required=True, label="Nick *",
-                           widget=forms.TextInput(
-                               attrs={'placeholder': 'Dendi', 'class': '', 'autocomplete': 'off'}))
+    nick = forms.CharField(label="Nick *",
+                           max_length=50,
+                           strip=True,
+                           required=True,
+                           widget=forms.TextInput(attrs={'placeholder': 'Dendi',
+                                                         'class': 'form-control',
+                                                         'autocomplete': 'off'}))
 
-    jogo = forms.ChoiceField(label="Jogo *", choices=JOGOS)
+    jogo = forms.ModelChoiceField(label='Jogo',
+                                  empty_label="Jogo",
+                                  queryset=Jogos.objects.all(),
+                                  widget=forms.Select(attrs={'class': 'form-select'}))
 
-    regiao_server = forms.CharField(max_length=50, strip=True, required=True, label="Servidor *",
+    regiao_server = forms.CharField(max_length=50,
+                                    strip=True,
+                                    required=True,
+                                    label="Servidor *",
                                     widget=forms.TextInput(
-                                        attrs={'placeholder': 'Americas', 'class': '', 'autocomplete': 'off'}))
+                                        attrs={'placeholder': 'Americas', 'class': 'form-control', 'autocomplete': 'off'}))
 
     link_perfil_jogador = forms.CharField(max_length=50, strip=True, required=True, label="Link do perfil do jogador *",
                                  widget=forms.TextInput(attrs={'placeholder': 'https://steamcommunity.com/profiles/761',
-                                            'class': '', 'autocomplete': 'off'}))
+                                            'class': 'form-control', 'autocomplete': 'off'}))
 
-    plataforma = forms.ChoiceField(label="Plataforma", choices=PLATAFORMA)
+    plataforma = forms.ModelChoiceField(label='Plataforma *', empty_label="Plataforma",
+                                        queryset=Plataforma.objects.all(), widget=forms.Select(attrs={'class': 'form-select'}))
 
     class Meta:
         model = NickUsuario

@@ -14,22 +14,22 @@ def verifica_campo_vazio(campo):
 class JogosForm(forms.ModelForm):
     nome = forms.CharField(label='Nome do jogo *', max_length=100, strip=True, required=True,
                            widget=forms.TextInput(attrs={'placeholder': 'World of Warcraft',
-                                                         'class': '', 'autocomplete': 'off'}))
+                                                         'class': 'form-control', 'autocomplete': 'off'}))
 
     empresa_desenvolvedora = forms.CharField(label='Desenvolvedor *', max_length=100, strip=True, required=True,
                                              widget=forms.TextInput(attrs={'placeholder': 'Blizzard',
-                                                                           'class': '', 'autocomplete': 'off'}))
+                                                                           'class': 'form-control', 'autocomplete': 'off'}))
     
     ano_lancamento = forms.IntegerField(label='Ano de lançamento *', max_value=datetime.today().year, min_value=2004,
                                         required=True, widget=forms.NumberInput(
-                                        attrs={'placeholder': '2021', 'class': '', 'autocomplete': 'off'}))
+                                        attrs={'placeholder': '2021', 'class': 'form-control', 'autocomplete': 'off'}))
 
     plataforma = forms.ModelChoiceField(label='Plataforma *', empty_label="Plataforma",
-                                        queryset=Plataforma.objects.all())
+                                        queryset=Plataforma.objects.all(), widget=forms.Select(attrs={'class':'form-select'}))
 
     imagem = forms.ImageField(label='Foto de perfil', required=False, help_text='PNG, JPEG, JPG',
                               validators=[FileExtensionValidator(allowed_extensions=['png', 'jpeg', 'jpg'],
-                              message='Arquivo inválido')], widget=forms.FileInput(attrs={'class': ''}))
+                              message='Arquivo inválido')], widget=forms.FileInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Jogos
@@ -64,18 +64,20 @@ class JogosForm(forms.ModelForm):
 class EditaJogosForm(forms.ModelForm):
     nome = forms.CharField(label='Nome do jogo', max_length=100, strip=True, required=True,
                            widget=forms.TextInput(attrs={'placeholder': 'World of Warcraft',
-                                                         'class': '', 'autocomplete': 'off'}))
+                                                         'class': 'form-control', 'autocomplete': 'off'}))
 
     empresa_desenvolvedora = forms.CharField(label='Desenvolvedor', max_length=100, strip=True, required=True,
                                              widget=forms.TextInput(attrs={'placeholder': 'Blizzard',
-                                                                           'class': '', 'autocomplete': 'off'}))
+                                                                           'class': 'form-control', 'autocomplete': 'off'}))
 
     ano_lancamento = forms.IntegerField(label='Ano de lançamento', max_value=datetime.today().year, min_value=2004,
                                         required=True, widget=forms.NumberInput(
-            attrs={'placeholder': '2021', 'class': '', 'autocomplete': 'off'}))
+            attrs={'placeholder': '2021', 'class': 'form-control', 'autocomplete': 'off'}))
 
-    plataforma = forms.ModelChoiceField(label='Plataforma *', empty_label="Plataforma",
-                                        queryset=Plataforma.objects.all())
+    plataforma = forms.ModelChoiceField(label='Plataforma *',
+                                        empty_label="Plataforma",
+                                        queryset=Plataforma.objects.all(),
+                                        widget=forms.Select(attrs={'class':'form-select'}))
 
     class Meta:
         model = Jogos
