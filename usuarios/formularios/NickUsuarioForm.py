@@ -22,14 +22,23 @@ class UsuarioJogaForm(forms.ModelForm):
                                     required=True,
                                     label="Servidor *",
                                     widget=forms.TextInput(
-                                        attrs={'placeholder': 'Americas', 'class': 'form-control', 'autocomplete': 'off'}))
+                                        attrs={'placeholder': 'Americas',
+                                               'class': 'form-control',
+                                               'autocomplete': 'off'}))
 
-    link_perfil_jogador = forms.CharField(max_length=50, strip=True, required=True, label="Link do perfil do jogador *",
-                                 widget=forms.TextInput(attrs={'placeholder': 'https://steamcommunity.com/profiles/761',
-                                            'class': 'form-control', 'autocomplete': 'off'}))
+    link_perfil_jogador = forms.CharField(max_length=50,
+                                          strip=True,
+                                          required=True,
+                                          label="Link do perfil do jogador *",
+                                          widget=forms.TextInput(attrs={
+                                            'placeholder': 'https://steamcommunity.com/profiles/761',
+                                            'class': 'form-control',
+                                            'autocomplete': 'off'}))
 
-    plataforma = forms.ModelChoiceField(label='Plataforma *', empty_label="Plataforma",
-                                        queryset=Plataforma.objects.all(), widget=forms.Select(attrs={'class': 'form-select'}))
+    plataforma = forms.ModelChoiceField(label='Plataforma *',
+                                        empty_label="Plataforma",
+                                        queryset=Plataforma.objects.all(),
+                                        widget=forms.Select(attrs={'class': 'form-select'}))
 
     class Meta:
         model = NickUsuario

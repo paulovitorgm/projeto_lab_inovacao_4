@@ -81,6 +81,7 @@ def editar_user(request):
 @login_required(login_url='/accounts/login')
 def editar_usuario(request):
     usuario = Usuario.objects.get(id_usuario=request.user)
+    print(usuario)
     form = EditaUsuarioForm(instance=usuario)
     contexto = {"form": form}
     if request.method == "POST":
@@ -114,13 +115,21 @@ def alterar_senha(request):
         return render(request, 'registration/troca_senha.html', contexto)
 
 
+#
+#
+#ainda não está funcionando
+#
+#
 @login_required(login_url='/accounts/login')
 def cadastrar_nick(request):
     form = UsuarioJogaForm
     contexto = {'form': form}
     if request.method == 'POST':
         form = UsuarioJogaForm(request.POST)
+        print(str(request.user.pk) * 100)
         if form.is_valid():
+            form.save(commit=False)
+            form.usuario_id_id = get_object_or_404(Usuario, id_usuario_id=request.user.pk)
             form.save()
         messages.success(request, f"Nick {request.POST.get('nick')} salvo com sucesso.")
         return redirect('index')

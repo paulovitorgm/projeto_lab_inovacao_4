@@ -1,7 +1,8 @@
 {% extends 'partials/_base.html' %}
 
 {% block partials_base %}
-    <div class="container">
+    <div class="container w-25 mt-5 p-3">
+        <p class="fs-1 text-center"> <span class="badge text-light">Usuario Joga</span></p>
         {% include 'partials/_alertas.html' %}
         <form action="" method="POST">
             {% csrf_token %}
