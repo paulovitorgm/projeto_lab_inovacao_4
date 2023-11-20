@@ -9,7 +9,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 
 from ProjetoJogos.settings import DEFAULT_FROM_EMAIL
-from usuarios.formularios.NickUsuarioForm import UsuarioJogaForm
+from usuarios.formularios.NickUsuarioForm import NickUsuarioForm
 from usuarios.models import Usuario
 from usuarios.forms import UsuarioForm, EditaUsuarioForm, EditaUserForm
 from jogos.models import Jogos, Plataforma
@@ -115,17 +115,12 @@ def alterar_senha(request):
         return render(request, 'registration/troca_senha.html', contexto)
 
 
-#
-#
-#ainda não está funcionando
-#
-#
 @login_required(login_url='/accounts/login')
 def cadastrar_nick(request):
-    form = UsuarioJogaForm
+    form = NickUsuarioForm
     contexto = {'form': form}
     if request.method == 'POST':
-        form = UsuarioJogaForm(request.POST)
+        form = NickUsuarioForm(request.POST)
         print(str(request.user.pk) * 100)
         if form.is_valid():
             form.save(commit=False)

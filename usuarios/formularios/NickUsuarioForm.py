@@ -3,7 +3,7 @@ from jogos.models import Jogos, Plataforma
 from usuarios.models import NickUsuario
 
 
-class UsuarioJogaForm(forms.ModelForm):
+class NickUsuarioForm(forms.ModelForm):
     nick = forms.CharField(label="Nick *",
                            max_length=50,
                            strip=True,

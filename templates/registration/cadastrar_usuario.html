@@ -2,9 +2,8 @@
 
 
 {% block partials_base %}
-    <div class="container w-25 mt-5 p-3">
-
-        <p class="fs-1 text-center"> <span class="badge text-light">Cadastrar Usuario</span></p>
+    <div class="container w-25 mt-5 p-3 text-bg-light rounded">
+        <p class="fs-1 text-center"> <span class="badge text-light text-bg-dark">Cadastrar Usuario</span></p>
         {% include 'partials/_alertas.html' %}
         <form action="{% url 'cadastrar_usuario' %}" method="POST" class="m-3 p-3" enctype="multipart/form-data">
             {% csrf_token %}

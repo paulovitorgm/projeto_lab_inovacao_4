@@ -4,8 +4,8 @@
 
 
 
-    <div class="container w-25 mt-5 p-3">
-        <p class="fs-1 text-center"> <span class="badge text-light">Fazer Login</span></p>
+    <div class="container w-25 mt-5 p-3 text-bg-light rounded">
+        <p class="fs-1 text-center"> <span class="badge text-light text-bg-dark">Fazer Login</span></p>
         {% include 'partials/_alertas.html' %}
         <form method="post" action="{% url 'login' %}" class="m-3 p-3">
             {% csrf_token %}
