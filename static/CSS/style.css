@@ -2,8 +2,10 @@ body {
     background-image: url("../img/img_bg.png");
 }
 
+main {
+    height: 100vh;
+}
 
-.fundo_form {
-    background-image: url("../img/img_bg_form_8.png");
-
+footer {
+    height: 200vh;
 }

@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 
 from ProjetoJogos.settings import DEFAULT_FROM_EMAIL
 from usuarios.formularios.NickUsuarioForm import NickUsuarioForm
-from usuarios.models import Usuario
+from usuarios.models import Usuario, NickUsuario
 from usuarios.forms import UsuarioForm, EditaUsuarioForm, EditaUserForm
 from jogos.models import Jogos, Plataforma
 
@@ -18,18 +18,22 @@ from jogos.models import Jogos, Plataforma
 def index(request):
     usuario = Usuario()
     jogos = Jogos.objects.all()
-    jogadores = User.objects.all()
     plataforma = Plataforma.objects.all()
-    contexto = {'jogos': jogos, 'usuario': usuario, 'jogadores': jogadores, 'plataformas': plataforma}
+    nicks_jogadores = NickUsuario.objects.all()
+    contexto = {'jogos': jogos,
+                'usuario': usuario,
+                'plataformas': plataforma,
+                'nicks_jogadores': nicks_jogadores}
 
     if 'busca' in request.GET:
         busca = request.GET.get('busca')
-        jogadores_encontrados = jogadores.filter(username__icontains=busca)
+        jogadores_encontrados = nicks_jogadores.filter(nick__icontains=busca)
         if jogadores_encontrados.first() is None:
             messages.error(request, f'Jogador "{busca}" não encontrado. Tente novamente.')
-
-        contexto = {'jogos': jogos, 'usuario': usuario, 'jogadores': jogadores,
-                    'plataformas': plataforma, 'busca': jogadores_encontrados}
+        contexto = {'jogos': jogos,
+                    'usuario': usuario,
+                    'plataformas': plataforma,
+                    'busca': jogadores_encontrados}
     return render(request, 'index.html', contexto)
 
 
